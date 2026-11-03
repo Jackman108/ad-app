@@ -54,16 +54,18 @@
 
 ---
 
-## Z3 — Диспетчер
+## Z3 — Диспетчер ✅ (оценка + offer; accept — Z4)
 
 | # | Задача | Статус |
 | --- | --- | --- |
-| Z3.1 | Очередь SUBMITTED/ESTIMATED | ⬜ |
-| Z3.2 | Оценка `priceMinor` + переход ESTIMATED→OFFERED | ⬜ |
-| Z3.3 | Назначение `masterId` (OFFERED→ACCEPTED со стороны диспетчера или accept мастером) | ⬜ |
-| Z3.4 | Роль dispatcher (User flag или Org platform) | ⬜ |
+| Z3.1 | Очередь SUBMITTED/ESTIMATED/OFFERED на `/dispatch` | ✅ |
+| Z3.2 | Оценка `priceMinor` SUBMITTED→ESTIMATED | ✅ |
+| Z3.3 | Назначение `masterId` ESTIMATED→OFFERED | ✅ |
+| Z3.4 | Роль dispatcher = `User.role === ADMIN` | ✅ |
 
-**Exit:** заявка назначена мастеру без оплаты.
+**Exit:** заявка предложена мастеру (OFFERED) — ✅; accept мастером → Z4.
+
+**Следующий:** Z4 кабинет мастера.
 
 ---
 
