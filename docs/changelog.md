@@ -16,6 +16,7 @@
 - Prod: standalone Dockerfile, `docker-compose.prod.yml`, `/api/health`, `docs/guides/deploy-ru.md`
 - Бренд **Объявки BY**; VPS-compose рядом с febcode с mem/cpu limits (`server/ad-app`)
 - Планируемый домен **abyawki.by** (be: Аб'яўкі)
+- Редактирование объявления владельцем: `/listings/[slug]/edit`
 - Fix inbox: `Pop-AgentInbox` показывает/resume `in_progress` (без потери команд)
 - Каркас документации (`docs/`) и Cursor rules (`.cursor/rules/`)
 - Анализ окружения и архитектуры

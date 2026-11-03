@@ -84,6 +84,9 @@ export default async function MyListingsPage() {
                   <Link className={styles.primary} href={`/listings/${row.slug}`}>
                     Открыть
                   </Link>
+                  {row.status !== 'ARCHIVED' && row.status !== 'SOLD' ? (
+                    <Link href={`/listings/${row.slug}/edit`}>Изменить</Link>
+                  ) : null}
                   {actions.map((to) => (
                     <form key={to} action={change}>
                       <input type="hidden" name="to" value={to} />

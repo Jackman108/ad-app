@@ -34,7 +34,7 @@
 | --- | --- | --- |
 | S1.1 | Better Auth + Prisma session/account | ✅ |
 | S1.2 | `/register`, `/login`, сессия на главной | ✅ |
-| S1.3 | Sign-out на UI | ⬜ сейчас |
+| S1.3 | Sign-out на UI | ✅ |
 | S1.4 | Reset password (SMTP) | ⏸ внешний SMTP |
 | S1.5 | Google / Telegram / phone OTP | ⏸ секреты |
 
@@ -49,7 +49,7 @@
 | S2.1 | DTO Public / Contact (без телефона в public) | ✅ |
 | S2.2 | Use-case: create+publish (FSM check) | ✅ |
 | S2.3 | Форма «Новое объявление» `/listings/new` | ✅ |
-| S2.4 | «Мои объявления» + смена статуса (FSM) | ✅ |
+| S2.4 | «Мои объявления» + смена статуса (FSM) + edit | ✅ |
 | S2.5 | Карточка `/listings/[slug]` (public) | ✅ |
 | S2.6 | Guard: только auth создаёт | ✅ |
 | S2.7 | Лента published на `/` | ✅ |
