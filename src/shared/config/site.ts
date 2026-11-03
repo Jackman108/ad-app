@@ -1,5 +1,6 @@
 export const siteConfig = {
-  name: 'Ad App',
+  /** Product name (UI). Public hostname TBD — see docs/guides/deploy-ru.md */
+  name: 'Объявки BY',
   countryCode: 'BY',
   currency: 'BYN',
   phonePrefix: '+375',

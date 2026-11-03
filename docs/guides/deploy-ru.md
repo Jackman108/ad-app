@@ -1,7 +1,12 @@
-# Деплой Ad App (VPS)
+# Деплой Объявки BY (VPS)
 
 **Обновлено**: 03.11.2026  
-Временно — тот же класс VPS, что lendings ([ADR 0001](../adr/0001-core-stack.md)).
+Продукт: **Объявки BY**. Временно — mesh-VPS рядом с feb-code (`/opt/ad-app`, лимиты RAM/CPU), см. `Documents/server/ad-app/`.  
+Канон стека: [ADR 0001](../adr/0001-core-stack.md).
+
+## Домен
+
+Планируется зона **`.by`**. Точный FQDN (в т.ч. роль буквы **w** / www) — подтвердить перед DNS и TLS.
 
 ## Локальный prod-smoke
 

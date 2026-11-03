@@ -73,7 +73,7 @@ export default async function HomePage({
   return (
     <main className={styles.main}>
       <header className={styles.header}>
-        <p className={styles.brand}>Ad App</p>
+        <p className={styles.brand}>Объявки BY</p>
         <nav className={styles.nav}>
           {session?.user ? (
             <>

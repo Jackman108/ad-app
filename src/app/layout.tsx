@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
+import { siteConfig } from '@/shared/config/site';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Ad App',
+  title: siteConfig.name,
   description: 'Объявления от частных лиц — Беларусь',
 };
 
