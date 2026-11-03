@@ -7,14 +7,14 @@ alwaysApply: true
 
 ## Назначение
 
-Веб-приложение для **публикации и просмотра объявлений от частных лиц** (MVP: РБ). Лента, карточка, создание, поиск, контакт «Написать»; телефон автора — только авторизованным. Auth: email, phone OTP, Google, Telegram.
+Продукт **Объявки BY** (MVP: РБ, план host `abyawki.by`). Лента, карточка, создание/edit, поиск, избранное, контакт «Написать»; телефон автора — только авторизованным. Auth: email (+ later phone OTP, Google, Telegram).
 
 ## Корень репозитория
 
 ```text
-├── src/              # Next App Router + FSD (после scaffold)
-├── prisma/           # схема и миграции (после scaffold)
-├── docs/             # архитектура, ADR, changelog
+├── src/              # Next App Router + FSD
+├── prisma/           # схема и миграции
+├── docs/             # архитектура, ADR, changelog, sprint-map + audit
 ├── .cursor/rules/    # эти правила
 └── README.md
 ```

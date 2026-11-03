@@ -1,9 +1,10 @@
-# Карта разработки Ad App (спринты → рабочий MVP)
+# Карта разработки Объявки BY (спринты → рабочий MVP)
 
 **Обновлено**: 03.11.2026  
+**Бренд:** Объявки BY · **host:** abyawki.by (план)  
 **Цель «готово»:** локально (и желательно на VPS) частник регистрируется, публикует объявление с фото, другой юзер видит ленту/карточку, пишет in-app, видит телефон после входа.
 
-Канон продукта: [strategy-plan-ru.md](strategy-plan-ru.md) · [domain-model-ru.md](domain-model-ru.md) · ADR 0001–0003.
+Канон: [strategy-plan-ru.md](strategy-plan-ru.md) · [domain-model-ru.md](domain-model-ru.md) · ADR 0001–0003 · [аудит](sprint-audit-2026-11-03-ru.md).
 
 ```text
 [S0 Foundation]──►[S1 Auth email]──►[S2 Listings CRUD]
@@ -42,7 +43,7 @@
 
 ---
 
-## S2 — Listings CRUD ⬅️ текущий
+## S2 — Listings CRUD ✅
 
 | # | Задача | Статус |
 | --- | --- | --- |
@@ -87,21 +88,25 @@
 
 ---
 
-## S5 — Качество и выкладка
+## S5 — Качество и выкладка ⬅️ текущий
 
 | # | Задача | Статус |
 | --- | --- | --- |
-| S5.1 | Playwright smoke | ✅ (`yarn test:e2e`) |
+| S5.1 | Playwright smoke | ✅ (пакет/браузеры — доустановить по сети) |
 | S5.2 | Rate limit | ✅ (auth middleware + server actions) |
-| S5.3 | Dockerfile app | ✅ |
-| S5.4 | Деплой VPS lendings | 🟡 compose.prod + `/api/health` (домен/nginx — след.) |
+| S5.3 | Dockerfile app | ✅ (сборка образа на msi часто тормозит npm ci) |
+| S5.4 | Деплой VPS + abyawki.by | 🟡 compose.prod + health; DNS/TLS после покупки домена |
 | S5.5 | GitHub repo + push | ✅ https://github.com/Jackman108/ad-app |
 
 ---
 
-## Вне MVP (не в спринтах до S5)
+## Вне MVP
 
-Notification badge · избранное UI · EAV-атрибуты · платежи · модерация-админка · отдельный хост.
+| Тема | Статус |
+| --- | --- |
+| Избранное UI | ✅ `/favorites` + кнопка на карточке |
+| Notification badge | ⬜ |
+| EAV-атрибуты · платежи · модерация · отдельный хост | ⬜ |
 
 ## Блокеры снаружи
 

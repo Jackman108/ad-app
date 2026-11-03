@@ -17,6 +17,7 @@
 - Бренд **Объявки BY**; VPS-compose рядом с febcode с mem/cpu limits (`server/ad-app`)
 - Планируемый домен **abyawki.by** (be: Аб'яўкі)
 - Редактирование объявления владельцем: `/listings/[slug]/edit`
+- Избранное: toggle на карточке + `/favorites`; аудит спринтов `sprint-audit-2026-11-03-ru.md`
 - Fix inbox: `Pop-AgentInbox` показывает/resume `in_progress` (без потери команд)
 - Каркас документации (`docs/`) и Cursor rules (`.cursor/rules/`)
 - Анализ окружения и архитектуры

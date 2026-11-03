@@ -79,6 +79,7 @@ export default async function HomePage({
             <>
               <Link href="/listings/new">Подать</Link>
               <Link href="/my/listings">Мои</Link>
+              <Link href="/favorites">Избранное</Link>
               <Link href="/inbox">Сообщения</Link>
               <span className={styles.user}>{session.user.name}</span>
               <SignOutButton />

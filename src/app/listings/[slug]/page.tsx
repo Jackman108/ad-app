@@ -8,6 +8,7 @@ import { auth } from '@/shared/lib/auth';
 import { prisma } from '@/shared/lib/prisma';
 import { writeToSeller } from './message-actions';
 import { reportListingAction } from './report-actions';
+import { toggleFavoriteAction } from './favorite-actions';
 import styles from './page.module.css';
 
 type Props = { params: Promise<{ slug: string }> };
@@ -35,10 +36,26 @@ export default async function ListingPage({ params }: Props) {
   const write = writeToSeller.bind(null, row.id);
   const report = reportListingAction.bind(null, row.id);
 
+  const favorited = session?.user
+    ? Boolean(
+        await prisma.favorite.findUnique({
+          where: { userId_listingId: { userId: session.user.id, listingId: row.id } },
+          select: { id: true },
+        }),
+      )
+    : false;
+  const toggleFav = toggleFavoriteAction.bind(null, row.id, row.slug);
+
   return (
     <main className={styles.main}>
       <p className={styles.back}>
         <Link href="/">← Лента</Link>
+        {isAuthed ? (
+          <>
+            {' · '}
+            <Link href="/favorites">Избранное</Link>
+          </>
+        ) : null}
       </p>
       {cover ? (
         // eslint-disable-next-line @next/next/no-img-element
@@ -62,6 +79,13 @@ export default async function ListingPage({ params }: Props) {
         </p>
       )}
       <div className={styles.body}>{view.description}</div>
+      {isAuthed ? (
+        <form action={toggleFav}>
+          <button type="submit" className={styles.favBtn}>
+            {favorited ? '★ В избранном' : '☆ В избранное'}
+          </button>
+        </form>
+      ) : null}
       {isAuthed && !isOwner ? <WriteSellerForm action={write} /> : null}
       {isAuthed && !isOwner ? <ReportForm action={report} slug={row.slug} /> : null}
     </main>

@@ -53,3 +53,20 @@
   line-height: 1.55;
   color: var(--color-text);
 }
+
+.favBtn {
+  margin-top: 1rem;
+  font: inherit;
+  font-size: 0.95rem;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-text);
+  padding: 0.45rem 0.85rem;
+  cursor: pointer;
+}
+
+.favBtn:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
