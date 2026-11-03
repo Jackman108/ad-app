@@ -1,0 +1,20 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: adapp
+      POSTGRES_PASSWORD: adapp
+      POSTGRES_DB: adapp
+    volumes:
+      - adapp_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U adapp -d adapp"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  adapp_pg:

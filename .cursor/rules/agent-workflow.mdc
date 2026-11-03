@@ -1,0 +1,35 @@
+---
+description: Как агенту работать в Ad App
+alwaysApply: true
+---
+
+# Workflow агента
+
+## Порядок на задачах
+
+1. Прочитать `docs/README.md` и релевантный guide/ADR
+2. Менять только нужные файлы; не раздувать scope
+3. После архитектурных решений — ADR + краткое обновление rules
+4. В конце — пункт в `docs/changelog.md` `[Unreleased]`
+
+## Scaffold и зависимости
+
+- ADR 0001/0002 приняты — scaffold кода только по явной команде пользователя («scaffold / создавай код»)
+- `packageManager` = yarn@1.22.22; не переключать на npm/pnpm
+- UI только CSS Modules + tokens; auth по ADR 0002
+- Не коммитить без явной просьбы пользователя
+
+## Phone inbox (обязательно)
+
+На каждом тике цикла:
+1. `Pop-AgentInbox.ps1` (list) — смотреть и `pending`, и `in_progress`
+2. Затем `-Claim` — вернёт stuck `in_progress` (resume) или новый pending
+3. Сделать задачу → `-Complete id -Reply …`
+4. Пусто (`pending=0` / `{"empty":true}`) — только тогда молчать
+5. **Никогда** не считать inbox пустым, если есть `in_progress` без Complete
+
+## Качество
+
+- Не оставлять секреты в коде и docs
+- Предпочитать server-side границы (RSC, server actions) для мутаций объявлений
+- Перед крупным рефакторингом — коротко согласовать направление

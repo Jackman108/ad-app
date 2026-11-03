@@ -1,0 +1,29 @@
+---
+description: Принятый технологический стек Ad App
+alwaysApply: true
+---
+
+# Технологический стек
+
+Канон: [docs/adr/0001-core-stack.md](../../docs/adr/0001-core-stack.md), auth/контакт: [docs/adr/0002-auth-and-contact.md](../../docs/adr/0002-auth-and-contact.md).
+
+## Принято
+
+- Node.js 24, Yarn 1.22.22
+- Next.js App Router, TypeScript, FSD под `src/`
+- PostgreSQL + Prisma, Zod
+- Better Auth: email+пароль (reset link), phone OTP, Google, Telegram
+- UI: **CSS Modules + design tokens** (не Tailwind)
+- Деплой временно на VPS lendings (Docker)
+- Регион: **только РБ** (города, `+375`, BYN)
+
+## Контакт и сделки
+
+- Переписка **только in-app** (Conversation/Message); не уводить сделку в email/TG/SMS
+- «Написать» и телефон автора — только авторизованным; гостю CTA входа
+
+## Не добавлять без ADR
+
+- pnpm/bun, Nest/Express app, Redis/очереди/отдельный search
+- Tailwind рядом с CSS Modules
+- Отдельный хост деплоя (пока временный shared VPS)

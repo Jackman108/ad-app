@@ -1,0 +1,24 @@
+---
+description: Канон доменных сущностей Ad App
+alwaysApply: true
+---
+
+# Доменная модель
+
+Источник правды: [docs/guides/domain-model-ru.md](../../docs/guides/domain-model-ru.md) · [ADR 0003](../../docs/adr/0003-domain-model.md).
+
+## MVP-сущности
+
+User, Category, Region, Locality, Listing, ListingImage, Conversation, Message, Favorite, Report (+ таблицы Better Auth).
+
+## Обязательные правила
+
+- Цена: `priceMinor` (int, копейки) + currency `BYN` — не float
+- Гео: Region → Locality; страна только BY в конфиге
+- Статусы Listing — только через use-case FSM
+- Переписка in-app; UNIQUE conversation `(listingId, buyerId)`
+- Телефон автора не в публичных DTO
+- Не плодить Buyer/Seller tables; не тащить Payment/Review в первую миграцию
+- Картинки — `ListingImage`, не единственный JSON-массив URL
+
+При сомнении — сначала обновить domain-model + ADR, потом код.

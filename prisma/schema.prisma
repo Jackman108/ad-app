@@ -1,0 +1,265 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+  BANNED
+}
+
+enum ListingCondition {
+  NEW
+  USED
+  FOR_PARTS
+  NOT_APPLICABLE
+}
+
+enum ListingStatus {
+  DRAFT
+  PUBLISHED
+  RESERVED
+  SOLD
+  ARCHIVED
+  HIDDEN
+}
+
+enum ConversationStatus {
+  ACTIVE
+  ARCHIVED
+  BLOCKED
+}
+
+enum ReportReason {
+  SPAM
+  FRAUD
+  PROHIBITED
+  OTHER
+}
+
+enum ReportStatus {
+  OPEN
+  REVIEWED
+  DISMISSED
+}
+
+/// Better Auth base fields + domain extras (ADR 0002 / 0003)
+model User {
+  id              String     @id @default(cuid())
+  name            String
+  email           String     @unique
+  emailVerified   Boolean    @default(false)
+  image           String?
+  phoneE164       String?    @unique
+  phoneVerifiedAt DateTime?
+  role            UserRole   @default(USER)
+  status          UserStatus @default(ACTIVE)
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+
+  sessions              Session[]
+  accounts              Account[]
+  listings              Listing[]      @relation("SellerListings")
+  conversationsAsBuyer  Conversation[] @relation("BuyerConversations")
+  conversationsAsSeller Conversation[] @relation("SellerConversations")
+  messages              Message[]
+  favorites             Favorite[]
+  reportsFiled          Report[]       @relation("Reporter")
+  reportsAgainst        Report[]       @relation("ReportedUser")
+
+  @@map("user")
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  expiresAt DateTime
+  token     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id @default(cuid())
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id @default(cuid())
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("verification")
+}
+
+model Category {
+  id            String     @id @default(cuid())
+  parentId      String?
+  parent        Category?  @relation("CategoryTree", fields: [parentId], references: [id])
+  children      Category[] @relation("CategoryTree")
+  name          String
+  slug          String     @unique
+  sortOrder     Int        @default(0)
+  isActive      Boolean    @default(true)
+  allowsListing Boolean    @default(true)
+  listings      Listing[]
+}
+
+model Region {
+  id         String     @id @default(cuid())
+  code       Int        @unique
+  name       String
+  slug       String     @unique
+  localities Locality[]
+}
+
+model Locality {
+  id        String    @id @default(cuid())
+  regionId  String
+  region    Region    @relation(fields: [regionId], references: [id])
+  name      String
+  slug      String
+  sortOrder Int       @default(0)
+  isActive  Boolean   @default(true)
+  listings  Listing[]
+
+  @@unique([regionId, slug])
+}
+
+model Listing {
+  id          String           @id @default(cuid())
+  sellerId    String
+  seller      User             @relation("SellerListings", fields: [sellerId], references: [id])
+  categoryId  String
+  category    Category         @relation(fields: [categoryId], references: [id])
+  localityId  String
+  locality    Locality         @relation(fields: [localityId], references: [id])
+  title       String
+  slug        String           @unique
+  description String
+  priceMinor  Int?
+  currency    String           @default("BYN") @db.Char(3)
+  condition   ListingCondition @default(USED)
+  attributes  Json             @default("{}")
+  status      ListingStatus    @default(DRAFT)
+  publishedAt DateTime?
+  soldAt      DateTime?
+  deletedAt   DateTime?
+  viewCount   Int              @default(0)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  images        ListingImage[]
+  conversations Conversation[]
+  favorites     Favorite[]
+  reports       Report[]
+
+  @@index([status, publishedAt(sort: Desc)])
+  @@index([categoryId])
+  @@index([localityId])
+  @@index([sellerId])
+}
+
+model ListingImage {
+  id         String   @id @default(cuid())
+  listingId  String
+  listing    Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  storageKey String
+  sortOrder  Int      @default(0)
+  width      Int?
+  height     Int?
+  createdAt  DateTime @default(now())
+
+  @@index([listingId, sortOrder])
+}
+
+model Conversation {
+  id            String             @id @default(cuid())
+  listingId     String
+  listing       Listing            @relation(fields: [listingId], references: [id])
+  buyerId       String
+  buyer         User               @relation("BuyerConversations", fields: [buyerId], references: [id])
+  sellerId      String
+  seller        User               @relation("SellerConversations", fields: [sellerId], references: [id])
+  status        ConversationStatus @default(ACTIVE)
+  lastMessageAt DateTime?
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+  messages      Message[]
+
+  @@unique([listingId, buyerId])
+  @@index([buyerId, lastMessageAt])
+  @@index([sellerId, lastMessageAt])
+}
+
+model Message {
+  id             String       @id @default(cuid())
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  senderId       String
+  sender         User         @relation(fields: [senderId], references: [id])
+  body           String
+  createdAt      DateTime     @default(now())
+  readAt         DateTime?
+
+  @@index([conversationId, createdAt])
+}
+
+model Favorite {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  listingId String
+  listing   Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, listingId])
+}
+
+model Report {
+  id             String       @id @default(cuid())
+  reporterId     String
+  reporter       User         @relation("Reporter", fields: [reporterId], references: [id])
+  listingId      String?
+  listing        Listing?     @relation(fields: [listingId], references: [id])
+  reportedUserId String?
+  reportedUser   User?        @relation("ReportedUser", fields: [reportedUserId], references: [id])
+  reason         ReportReason
+  comment        String?
+  status         ReportStatus @default(OPEN)
+  createdAt      DateTime     @default(now())
+
+  @@index([status, createdAt])
+}

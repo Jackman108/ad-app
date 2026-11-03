@@ -1,0 +1,40 @@
+---
+description: Обзор Ad App — продукт, структура, принципы
+alwaysApply: true
+---
+
+# Ad App — правила разработки
+
+## Назначение
+
+Веб-приложение для **публикации и просмотра объявлений от частных лиц** (MVP: РБ). Лента, карточка, создание, поиск, контакт «Написать»; телефон автора — только авторизованным. Auth: email, phone OTP, Google, Telegram.
+
+## Корень репозитория
+
+```text
+├── src/              # Next App Router + FSD (после scaffold)
+├── prisma/           # схема и миграции (после scaffold)
+├── docs/             # архитектура, ADR, changelog
+├── .cursor/rules/    # эти правила
+└── README.md
+```
+
+Пока кода нет — не выдумывать структуру вне [docs/guides/architecture-ru.md](../../docs/guides/architecture-ru.md).
+
+## Документация
+
+- Индекс: `docs/README.md`
+- Стек: ADR 0001; окружение: `docs/guides/environment-ru.md`
+- Именование docs: kebab-case; RU-гайды с суффиксом `-ru.md`
+- Один источник правды; после задач обновлять `docs/changelog.md` и затронутые guides/ADR/rules
+
+## Принципы
+
+- **KISS / YAGNI** — MVP без «на вырост» (нет Redis/k8s/отдельного Nest без причины)
+- **SOLID / DRY** — сценарии в `features/`, общее в `shared/`
+- TypeScript everywhere
+- Секреты не коммитить (`.env` в gitignore)
+
+## Язык общения
+
+Пользователь пишет по-русски — ответы и docs по умолчанию на русском; идентификаторы кода — английский.
