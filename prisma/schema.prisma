@@ -78,6 +78,10 @@ model User {
   favorites             Favorite[]
   reportsFiled          Report[]       @relation("Reporter")
   reportsAgainst        Report[]       @relation("ReportedUser")
+  orgMemberships        OrgMembership[]
+  masterProfile         MasterProfile?
+  workOrdersCreated     WorkOrder[]    @relation("WorkOrderCreator")
+  workOrdersMastered    WorkOrder[]    @relation("WorkOrderMaster")
 
   @@map("user")
 }
@@ -156,6 +160,8 @@ model Locality {
   sortOrder Int       @default(0)
   isActive  Boolean   @default(true)
   listings  Listing[]
+  sites     Site[]
+  masters   MasterProfile[]
 
   @@unique([regionId, slug])
 }
@@ -264,4 +270,140 @@ model Report {
   createdAt      DateTime     @default(now())
 
   @@index([status, createdAt])
+}
+
+// ——— Завхоз (ADR 0005) ———
+
+enum OrgMemberRole {
+  OWNER
+  MANAGER
+  VIEWER
+}
+
+enum WorkOrderStatus {
+  DRAFT
+  SUBMITTED
+  ESTIMATED
+  OFFERED
+  ACCEPTED
+  IN_PROGRESS
+  AWAITING_CONFIRM
+  CLOSED
+  CANCELLED
+}
+
+enum WorkOrderImageKind {
+  BEFORE
+  AFTER
+}
+
+model Organization {
+  id           String          @id @default(cuid())
+  name         String
+  unp          String?
+  phoneE164    String?
+  isActive     Boolean         @default(true)
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+  memberships  OrgMembership[]
+  sites        Site[]
+  workOrders   WorkOrder[]
+}
+
+model OrgMembership {
+  id             String        @id @default(cuid())
+  organizationId String
+  organization   Organization  @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  userId         String
+  user           User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role           OrgMemberRole @default(MANAGER)
+  createdAt      DateTime      @default(now())
+
+  @@unique([organizationId, userId])
+  @@index([userId])
+}
+
+model Site {
+  id             String       @id @default(cuid())
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  localityId     String
+  locality       Locality     @relation(fields: [localityId], references: [id])
+  name           String
+  addressLine    String
+  isActive       Boolean      @default(true)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  workOrders     WorkOrder[]
+
+  @@index([organizationId])
+  @@index([localityId])
+}
+
+model WorkCategory {
+  id            String         @id @default(cuid())
+  parentId      String?
+  parent        WorkCategory?  @relation("WorkCategoryTree", fields: [parentId], references: [id])
+  children      WorkCategory[] @relation("WorkCategoryTree")
+  name          String
+  slug          String         @unique
+  sortOrder     Int            @default(0)
+  isActive      Boolean        @default(true)
+  allowsOrder   Boolean        @default(true)
+  workOrders    WorkOrder[]
+}
+
+model MasterProfile {
+  id         String   @id @default(cuid())
+  userId     String   @unique
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  localityId String?
+  locality   Locality? @relation(fields: [localityId], references: [id])
+  skills     String[]  @default([])
+  isActive   Boolean   @default(true)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+}
+
+model WorkOrder {
+  id              String          @id @default(cuid())
+  organizationId  String
+  organization    Organization    @relation(fields: [organizationId], references: [id])
+  siteId          String
+  site            Site            @relation(fields: [siteId], references: [id])
+  categoryId      String
+  category        WorkCategory    @relation(fields: [categoryId], references: [id])
+  createdById     String
+  createdBy       User            @relation("WorkOrderCreator", fields: [createdById], references: [id])
+  masterId        String?
+  master          User?           @relation("WorkOrderMaster", fields: [masterId], references: [id])
+  title           String
+  description     String
+  status          WorkOrderStatus @default(DRAFT)
+  priceMinor      Int?
+  currency        String          @default("BYN") @db.Char(3)
+  platformFeeBps  Int?
+  scheduledAt     DateTime?
+  closedAt        DateTime?
+  deletedAt       DateTime?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  images          WorkOrderImage[]
+
+  @@index([status, createdAt(sort: Desc)])
+  @@index([organizationId, status])
+  @@index([masterId, status])
+  @@index([siteId])
+}
+
+model WorkOrderImage {
+  id          String             @id @default(cuid())
+  workOrderId String
+  workOrder   WorkOrder          @relation(fields: [workOrderId], references: [id], onDelete: Cascade)
+  storageKey  String
+  sortOrder   Int                @default(0)
+  kind        WorkOrderImageKind
+  createdAt   DateTime           @default(now())
+
+  @@index([workOrderId, kind, sortOrder])
 }

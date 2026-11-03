@@ -28,5 +28,6 @@
 
 - [x] Guide domain-model-zavhoz написан
 - [x] MVP / phase2 / anti-model разделены
-- [ ] Prisma migration под канон
-- [ ] Сиды WorkCategory + демо Org/Site
+- [x] Prisma migration под канон (файл в репо)
+- [x] Сиды WorkCategory + демо Org/Site
+- [ ] `migrate deploy` на живой БД (local/VPS)

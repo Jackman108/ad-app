@@ -8,7 +8,8 @@
 ### Changed
 
 - **Пивот продукта:** вместо C2C «Объявки BY» — B2B «Завхоз на аутсорсе» ([ADR 0004](adr/0004-product-pivot-zavhoz.md), [business-model-zavhoz-ru.md](guides/business-model-zavhoz-ru.md)); код объявлений S0–S7 заморожен
-- **Z0 Завхоз:** [ADR 0005](adr/0005-zavhoz-domain-model.md), [domain-model-zavhoz-ru.md](guides/domain-model-zavhoz-ru.md), [sprint-map-zavhoz-ru.md](guides/sprint-map-zavhoz-ru.md); VPS можно менять в Z6; следующий — Z1 Prisma
+- **Z0 Завхоз:** [ADR 0005](adr/0005-zavhoz-domain-model.md), [domain-model-zavhoz-ru.md](guides/domain-model-zavhoz-ru.md), [sprint-map-zavhoz-ru.md](guides/sprint-map-zavhoz-ru.md); VPS можно менять в Z6
+- **Z1 Завхоз:** Prisma Organization/Site/WorkOrder(+Image)/MasterProfile/WorkCategory; миграция; FSM+DTO; сиды категорий работ + демо Org/Site; следующий — Z2 create order UI
 - S5.4: VPS `/opt/ad-app` на `:3010` — Postgres healthy, migrate+seed, health OK; uploads вне `:ro` (`/data/uploads`); Prisma `binaryTargets` debian; домен abyawki.by отложен
 - Quality gates: Husky + commitlint + lint-staged; `npm run check`; Playwright smoke (лента / guest→login / create→карточка); `environment-ru` обновлён
 - Аудит 04.11: готовность ~66% soft-launch / ~88% ядро; sprint-map S6–S9 (каталог+гео, фильтры+, горячая лента, UX); конкуренты Kufar/OLX/Avito

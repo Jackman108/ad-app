@@ -24,16 +24,18 @@
 
 ---
 
-## Z1 — Prisma-схема и сиды ⬅️ следующий
+## Z1 — Prisma-схема и сиды ✅ (код) / migrate на БД — при поднятом Postgres
 
 | # | Задача | Статус |
 | --- | --- | --- |
-| Z1.1 | Модели Organization, OrgMembership, Site, WorkCategory, MasterProfile, WorkOrder, WorkOrderImage | ⬜ |
-| Z1.2 | Миграция (рядом с архивом Listing — без drop) | ⬜ |
-| Z1.3 | Сиды: WorkCategory дерево; демо Org+Site в Минске | ⬜ |
-| Z1.4 | entities: FSM `canTransitionWorkOrder`, DTO | ⬜ |
+| Z1.1 | Модели Organization, OrgMembership, Site, WorkCategory, MasterProfile, WorkOrder, WorkOrderImage | ✅ |
+| Z1.2 | Миграция `20261104000000_zavhoz_work_orders` (без drop Listing) | ✅ файл |
+| Z1.3 | Сиды: WorkCategory дерево; демо Org+Site в Минске | ✅ |
+| Z1.4 | entities: FSM `canTransitionWorkOrder`, DTO | ✅ |
 
-**Exit:** `migrate` + `seed`; typecheck зелёный.
+**Exit:** typecheck ✅; `prisma migrate deploy` + `db seed` — на локальном/VPS Postgres.
+
+**Следующий:** Z2 UI/use-case создания заявки.
 
 ---
 
