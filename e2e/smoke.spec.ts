@@ -30,7 +30,10 @@ test('регистрация → создание объявления → ка�
   await page.getByLabel('Описание').fill('Описание для smoke e2e, не короче десяти символов.');
   await page.getByLabel('Цена, BYN (пусто = договорная)').fill('99');
   await page.getByLabel('Категория').selectOption({ index: 1 });
-  await page.getByLabel('Населённый пункт').selectOption({ index: 1 });
+  await page.getByTestId('listing-region').selectOption({ index: 1 });
+  const locality = page.getByTestId('listing-locality');
+  await expect(locality).toBeEnabled({ timeout: 10_000 });
+  await locality.selectOption({ index: 1 });
   await page.getByRole('button', { name: 'Опубликовать' }).click();
 
   await expect(page).toHaveURL(/\/listings\/(?!new(?:\/|$))[^/?#]+/, { timeout: 20_000 });

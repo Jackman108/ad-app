@@ -12,16 +12,27 @@ export default async function NewListingPage() {
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session?.user) redirect('/login');
 
-  const [categories, localities, unreadCount] = await Promise.all([
+  const [categories, regions, localities, unreadCount] = await Promise.all([
     prisma.category.findMany({
-      where: { isActive: true, allowsListing: true },
+      where: { isActive: true },
       orderBy: [{ sortOrder: 'asc' }, { name: 'asc' }],
+      select: {
+        id: true,
+        name: true,
+        slug: true,
+        parentId: true,
+        allowsListing: true,
+        sortOrder: true,
+      },
+    }),
+    prisma.region.findMany({
+      orderBy: { code: 'asc' },
       select: { id: true, name: true },
     }),
     prisma.locality.findMany({
       where: { isActive: true },
       orderBy: [{ sortOrder: 'asc' }, { name: 'asc' }],
-      select: { id: true, name: true, region: { select: { name: true } } },
+      select: { id: true, name: true, regionId: true },
     }),
     countUnreadForUser(session.user.id),
   ]);
@@ -32,11 +43,8 @@ export default async function NewListingPage() {
       <h1 className={styles.title}>Новое объявление</h1>
       <CreateListingForm
         categories={categories}
-        localities={localities.map((l) => ({
-          id: l.id,
-          name: l.name,
-          regionName: l.region.name,
-        }))}
+        regions={regions}
+        localities={localities}
         action={submitNewListing}
       />
     </main>

@@ -2,9 +2,9 @@
 
 import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
+import type { CategoryRow } from '@/entities/category/model/tree';
+import { ListingTaxonomyFields } from './ListingTaxonomyFields';
 import styles from './create-listing-form.module.css';
-
-type Option = { id: string; name: string };
 
 export type ListingFormDefaults = {
   title?: string;
@@ -16,8 +16,9 @@ export type ListingFormDefaults = {
 };
 
 type Props = {
-  categories: Option[];
-  localities: { id: string; name: string; regionName: string }[];
+  categories: CategoryRow[];
+  regions: { id: string; name: string }[];
+  localities: { id: string; name: string; regionId: string }[];
   action: (formData: FormData) => Promise<{ ok: true; slug: string } | { ok: false; error: string }>;
   defaults?: ListingFormDefaults;
   submitLabel?: string;
@@ -27,6 +28,7 @@ type Props = {
 
 export function CreateListingForm({
   categories,
+  regions,
   localities,
   action,
   defaults,
@@ -87,32 +89,13 @@ export function CreateListingForm({
           defaultValue={defaults?.priceByn ?? ''}
         />
       </label>
-      <label className={styles.label}>
-        Категория
-        <select className={styles.input} name="categoryId" required defaultValue={defaults?.categoryId ?? ''}>
-          <option value="" disabled>
-            Выберите
-          </option>
-          {categories.map((c) => (
-            <option key={c.id} value={c.id}>
-              {c.name}
-            </option>
-          ))}
-        </select>
-      </label>
-      <label className={styles.label}>
-        Населённый пункт
-        <select className={styles.input} name="localityId" required defaultValue={defaults?.localityId ?? ''}>
-          <option value="" disabled>
-            Выберите
-          </option>
-          {localities.map((l) => (
-            <option key={l.id} value={l.id}>
-              {l.regionName} — {l.name}
-            </option>
-          ))}
-        </select>
-      </label>
+      <ListingTaxonomyFields
+        categories={categories}
+        regions={regions}
+        localities={localities}
+        defaultCategoryId={defaults?.categoryId}
+        defaultLocalityId={defaults?.localityId}
+      />
       <label className={styles.label}>
         Состояние
         <select className={styles.input} name="condition" defaultValue={defaults?.condition ?? 'USED'}>

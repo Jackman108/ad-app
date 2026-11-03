@@ -25,7 +25,10 @@ test('ядро: объявление → написать → диалог', asy
   await seller.getByLabel('Описание').fill('Описание для ядра сделки, достаточно длинное.');
   await seller.getByLabel('Цена, BYN (пусто = договорная)').fill('120');
   await seller.getByLabel('Категория').selectOption({ index: 1 });
-  await seller.getByLabel('Населённый пункт').selectOption({ index: 1 });
+  await seller.getByTestId('listing-region').selectOption({ index: 1 });
+  const locality = seller.getByTestId('listing-locality');
+  await expect(locality).toBeEnabled({ timeout: 10_000 });
+  await locality.selectOption({ index: 1 });
   await seller.getByRole('button', { name: 'Опубликовать' }).click();
   await expect(seller).toHaveURL(/\/listings\/(?!new(?:\/|$))[^/?#]+/, { timeout: 20_000 });
   await expect(seller.getByRole('heading', { name: title })).toBeVisible({ timeout: 15_000 });

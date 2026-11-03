@@ -1,4 +1,6 @@
 import { PrismaClient } from '@prisma/client';
+import { categoryTree, type CatNode } from './data/by-categories';
+import { localitiesByRegionCode } from './data/by-localities';
 
 const prisma = new PrismaClient();
 
@@ -12,100 +14,6 @@ const regions = [
   { code: 7, name: 'Минск', slug: 'minsk' },
 ] as const;
 
-/** Ключевые города/районы для MVP (не полный справочник Kufar). */
-const localitiesByRegion: Record<number, { name: string; slug: string }[]> = {
-  1: [
-    { name: 'Брест', slug: 'brest' },
-    { name: 'Барановичи', slug: 'baranovichi' },
-    { name: 'Пинск', slug: 'pinsk' },
-  ],
-  2: [
-    { name: 'Гомель', slug: 'gomel' },
-    { name: 'Мозырь', slug: 'mozyr' },
-    { name: 'Жлобин', slug: 'zhlobin' },
-  ],
-  3: [
-    { name: 'Гродно', slug: 'grodno' },
-    { name: 'Лида', slug: 'lida' },
-    { name: 'Слоним', slug: 'slonim' },
-  ],
-  4: [
-    { name: 'Могилёв', slug: 'mogilev' },
-    { name: 'Бобруйск', slug: 'bobruisk' },
-    { name: 'Орша', slug: 'orsha-mogilev' },
-  ],
-  5: [
-    { name: 'Борисов', slug: 'borisov' },
-    { name: 'Солигорск', slug: 'soligorsk' },
-    { name: 'Молодечно', slug: 'molodechno' },
-  ],
-  6: [
-    { name: 'Витебск', slug: 'vitebsk' },
-    { name: 'Орша', slug: 'orsha' },
-    { name: 'Полоцк', slug: 'polotsk' },
-  ],
-  7: [
-    { name: 'Центральный', slug: 'centralny' },
-    { name: 'Советский', slug: 'sovetsky' },
-    { name: 'Первомайский', slug: 'pervomaysky' },
-    { name: 'Партизанский', slug: 'partizansky' },
-    { name: 'Заводской', slug: 'zavodskoy' },
-    { name: 'Ленинский', slug: 'leninsky' },
-    { name: 'Октябрьский', slug: 'oktyabrsky' },
-    { name: 'Московский', slug: 'moskovsky' },
-    { name: 'Фрунзенский', slug: 'frunzensky' },
-  ],
-};
-
-type CatNode = { name: string; slug: string; children?: CatNode[] };
-
-const categoryTree: CatNode[] = [
-  {
-    name: 'Недвижимость',
-    slug: 'nedvizhimost',
-    children: [
-      { name: 'Квартиры', slug: 'kvartiry' },
-      { name: 'Дома и дачи', slug: 'doma-dachi' },
-      { name: 'Участки', slug: 'uchastki' },
-    ],
-  },
-  {
-    name: 'Авто и транспорт',
-    slug: 'avto',
-    children: [
-      { name: 'Легковые', slug: 'legkovye' },
-      { name: 'Запчасти', slug: 'zapchasti' },
-      { name: 'Шины и диски', slug: 'shiny-diski' },
-    ],
-  },
-  {
-    name: 'Техника',
-    slug: 'tehnika',
-    children: [
-      { name: 'Телефоны', slug: 'telefony' },
-      { name: 'Компьютеры', slug: 'kompyutery' },
-      { name: 'Бытовая техника', slug: 'bytovaya' },
-    ],
-  },
-  {
-    name: 'Для дома',
-    slug: 'dom',
-    children: [
-      { name: 'Мебель', slug: 'mebel' },
-      { name: 'Посуда', slug: 'posuda' },
-    ],
-  },
-  {
-    name: 'Мода',
-    slug: 'moda',
-    children: [
-      { name: 'Женская одежда', slug: 'zhenskaya' },
-      { name: 'Мужская одежда', slug: 'muzhskaya' },
-    ],
-  },
-  { name: 'Другое', slug: 'drugoe' },
-];
-
 async function seedCategory(node: CatNode, parentId: string | null, sortOrder: number) {
   const row = await prisma.category.upsert({
     where: { slug: node.slug },
@@ -114,6 +22,7 @@ async function seedCategory(node: CatNode, parentId: string | null, sortOrder: n
       parentId,
       sortOrder,
       allowsListing: !node.children?.length,
+      isActive: true,
     },
     create: {
       name: node.name,
@@ -139,7 +48,7 @@ async function main() {
       create: { code: region.code, name: region.name, slug: region.slug },
     });
 
-    const localities = localitiesByRegion[region.code] ?? [];
+    const localities = localitiesByRegionCode[region.code] ?? [];
     for (let i = 0; i < localities.length; i += 1) {
       const loc = localities[i];
       await prisma.locality.upsert({
@@ -159,7 +68,7 @@ async function main() {
     await seedCategory(categoryTree[i], null, i);
   }
 
-  console.log('Seed OK: regions, localities, categories');
+  console.log('Seed OK: regions, localities (BY), categories tree');
 }
 
 main()
