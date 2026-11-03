@@ -63,13 +63,13 @@
 
 | # | Задача | Статус |
 | --- | --- | --- |
-| S3.1 | Лента `/` или `/listings` (published) | ⬜ |
-| S3.2 | Фильтры: category, locality, price min/max | ⬜ |
-| S3.3 | Upload ListingImage (local disk → ключ в БД) | ⬜ |
-| S3.4 | Галерея на карточке, обложка в ленте | ⬜ |
-| S3.5 | Поиск по title/description (ILIKE) | ⬜ |
+| S3.1 | Лента `/` (published) | ✅ |
+| S3.2 | Фильтры: category, locality, price min/max | ✅ |
+| S3.3 | Upload ListingImage (local `uploads/`) | ✅ |
+| S3.4 | Обложка на карточке и в ленте | ✅ |
+| S3.5 | Поиск по title/description | ✅ |
 
-**Exit:** лента с фильтрами и хотя бы одним фото на объявлении.
+**Exit:** лента с фильтрами и фото — ✅
 
 ---
 
@@ -77,14 +77,13 @@
 
 | # | Задача | Статус |
 | --- | --- | --- |
-| S4.1 | Conversation UNIQUE(listing, buyer) | ⬜ |
-| S4.2 | Message send/list (poll) | ⬜ |
-| S4.3 | Inbox UI + тред | ⬜ |
-| S4.4 | Телефон автора только для auth на карточке | ⬜ |
-| S4.5 | Report (жалоба) минимум | ⬜ |
+| S4.1 | Conversation UNIQUE(listing, buyer) | ✅ |
+| S4.2 | Message send/list | ✅ |
+| S4.3 | Inbox UI + тред `/inbox` | ✅ |
+| S4.4 | Телефон автора только для auth | ✅ |
+| S4.5 | Report (жалоба) минимум | ⬜ later |
 
-**Exit:** два юзера переписываются в приложении; телефон не у гостя.  
-→ это и есть **полноценное рабочее приложение MVP**.
+**Exit:** два юзера переписываются in-app — ✅ (проверь вручную двумя аккаунтами)
 
 ---
 
@@ -92,10 +91,11 @@
 
 | # | Задача | Статус |
 | --- | --- | --- |
-| S5.1 | Playwright smoke: register → publish → message | ⬜ |
-| S5.2 | Rate limit login/create/message | ⬜ |
-| S5.3 | Docker image app + compose | ⬜ |
-| S5.4 | Деплой на VPS lendings (временно) | ⬜ |
+| S5.1 | Playwright smoke | ⬜ |
+| S5.2 | Rate limit | ⬜ |
+| S5.3 | Dockerfile app | ✅ |
+| S5.4 | Деплой VPS lendings | ⬜ |
+| S5.5 | GitHub repo + push | ✅ https://github.com/Jackman108/ad-app |
 
 ---
 

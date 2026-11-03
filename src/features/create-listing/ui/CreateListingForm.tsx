@@ -33,7 +33,7 @@ export function CreateListingForm({ categories, localities, action }: Props) {
   }
 
   return (
-    <form className={styles.form} onSubmit={onSubmit}>
+    <form className={styles.form} onSubmit={onSubmit} encType="multipart/form-data">
       <label className={styles.label}>
         Заголовок
         <input className={styles.input} name="title" required minLength={3} maxLength={120} />
@@ -80,6 +80,10 @@ export function CreateListingForm({ categories, localities, action }: Props) {
           <option value="FOR_PARTS">На запчасти</option>
           <option value="NOT_APPLICABLE">Не применимо</option>
         </select>
+      </label>
+      <label className={styles.label}>
+        Фото (необязательно)
+        <input className={styles.input} name="image" type="file" accept="image/jpeg,image/png,image/webp" />
       </label>
       {error ? <p className={styles.error}>{error}</p> : null}
       <button className={styles.submit} type="submit" disabled={pending}>

@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import { canTransitionListing } from '@/entities/listing/model/status';
 import { prisma } from '@/shared/lib/prisma';
+import { saveListingImage } from '@/shared/lib/storage';
 import { slugifyTitle } from './slug';
 
 const createSchema = z.object({
@@ -23,7 +24,11 @@ function parsePriceMinor(raw: string | undefined): number | null {
   return Math.round(value * 100);
 }
 
-export async function createAndPublishListing(sellerId: string, input: unknown) {
+export async function createAndPublishListing(
+  sellerId: string,
+  input: unknown,
+  imageFile?: File | null,
+) {
   const data = createSchema.parse(input);
   const category = await prisma.category.findFirst({
     where: { id: data.categoryId, isActive: true, allowsListing: true },
@@ -36,6 +41,11 @@ export async function createAndPublishListing(sellerId: string, input: unknown) 
 
   if (!canTransitionListing('DRAFT', 'PUBLISHED')) {
     throw new Error('Недопустимый переход статуса');
+  }
+
+  let imageKey: string | null = null;
+  if (imageFile && imageFile.size > 0) {
+    imageKey = (await saveListingImage(imageFile)).storageKey;
   }
 
   const listing = await prisma.listing.create({
@@ -51,6 +61,9 @@ export async function createAndPublishListing(sellerId: string, input: unknown) 
       condition: data.condition,
       status: 'PUBLISHED',
       publishedAt: new Date(),
+      images: imageKey
+        ? { create: [{ storageKey: imageKey, sortOrder: 0 }] }
+        : undefined,
     },
   });
 

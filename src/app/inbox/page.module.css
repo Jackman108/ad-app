@@ -1,0 +1,44 @@
+.main {
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 3rem;
+}
+
+.back {
+  margin: 0 0 1rem;
+  font-size: 0.9rem;
+}
+
+.title {
+  margin: 0 0 1.25rem;
+}
+
+.empty {
+  color: var(--color-muted);
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  background: var(--color-surface);
+  text-decoration: none;
+  color: inherit;
+}
+
+.item span {
+  color: var(--color-muted);
+  font-size: 0.85rem;
+}

@@ -11,14 +11,20 @@ export async function submitNewListing(formData: FormData) {
   }
 
   try {
-    const listing = await createAndPublishListing(session.user.id, {
-      title: String(formData.get('title') ?? ''),
-      description: String(formData.get('description') ?? ''),
-      priceByn: String(formData.get('priceByn') ?? ''),
-      categoryId: String(formData.get('categoryId') ?? ''),
-      localityId: String(formData.get('localityId') ?? ''),
-      condition: String(formData.get('condition') ?? 'USED'),
-    });
+    const image = formData.get('image');
+    const imageFile = image instanceof File ? image : null;
+    const listing = await createAndPublishListing(
+      session.user.id,
+      {
+        title: String(formData.get('title') ?? ''),
+        description: String(formData.get('description') ?? ''),
+        priceByn: String(formData.get('priceByn') ?? ''),
+        categoryId: String(formData.get('categoryId') ?? ''),
+        localityId: String(formData.get('localityId') ?? ''),
+        condition: String(formData.get('condition') ?? 'USED'),
+      },
+      imageFile,
+    );
     return { ok: true as const, slug: listing.slug };
   } catch (e) {
     const message = e instanceof Error ? e.message : 'Ошибка сохранения';

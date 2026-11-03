@@ -2,8 +2,10 @@ import Link from 'next/link';
 import { headers } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { formatPriceByn, toListingContact, toListingPublic } from '@/entities/listing/model/dto';
+import { WriteSellerForm } from '@/features/contact-seller/ui/WriteSellerForm';
 import { auth } from '@/shared/lib/auth';
 import { prisma } from '@/shared/lib/prisma';
+import { writeToSeller } from './message-actions';
 import styles from './page.module.css';
 
 type Props = { params: Promise<{ slug: string }> };
@@ -24,14 +26,21 @@ export default async function ListingPage({ params }: Props) {
   if (!row) notFound();
 
   const isAuthed = Boolean(session?.user);
+  const isOwner = session?.user?.id === row.sellerId;
   const view = isAuthed ? toListingContact(row) : toListingPublic(row);
   const phone = isAuthed ? toListingContact(row).sellerPhoneE164 : null;
+  const cover = view.coverKey;
+  const write = writeToSeller.bind(null, row.id);
 
   return (
     <main className={styles.main}>
       <p className={styles.back}>
         <Link href="/">← Лента</Link>
       </p>
+      {cover ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img className={styles.cover} src={`/api/uploads/${cover}`} alt="" />
+      ) : null}
       <p className={styles.meta}>
         {view.category.name} · {view.locality.regionName}, {view.locality.name}
       </p>
@@ -50,6 +59,7 @@ export default async function ListingPage({ params }: Props) {
         </p>
       )}
       <div className={styles.body}>{view.description}</div>
+      {isAuthed && !isOwner ? <WriteSellerForm action={write} /> : null}
     </main>
   );
 }

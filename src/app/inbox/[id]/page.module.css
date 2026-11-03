@@ -1,0 +1,81 @@
+.main {
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 3rem;
+}
+
+.back {
+  margin: 0 0 1rem;
+  font-size: 0.9rem;
+}
+
+.title {
+  margin: 0 0 1.25rem;
+  font-size: 1.25rem;
+}
+
+.messages {
+  list-style: none;
+  margin: 0 0 1.25rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.mine,
+.theirs {
+  padding: 0.65rem 0.85rem;
+  border-radius: 0.5rem;
+  max-width: 85%;
+}
+
+.mine {
+  align-self: flex-end;
+  background: #1a3a2a;
+  margin-left: auto;
+}
+
+.theirs {
+  align-self: flex-start;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+}
+
+.who {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  margin-bottom: 0.2rem;
+}
+
+.body {
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.textarea {
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+  border-radius: 0.4rem;
+  padding: 0.65rem;
+  font: inherit;
+}
+
+.submit {
+  align-self: flex-start;
+  border: 0;
+  border-radius: 0.4rem;
+  padding: 0.6rem 1rem;
+  background: var(--color-accent);
+  color: #fff;
+  font: inherit;
+  cursor: pointer;
+}
