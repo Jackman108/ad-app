@@ -1,0 +1,16 @@
+node_modules
+.next
+.git
+.cursor
+uploads
+*.md
+!docs/**
+.env
+.env.*
+!.env.example
+e2e
+playwright.config.ts
+docker-compose*.yml
+agent-transcripts
+coverage
+*.log

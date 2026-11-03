@@ -1,0 +1,63 @@
+# App + Postgres for VPS / local prod smoke.
+# Usage:
+#   cp .env.example .env.prod  # fill secrets
+#   docker compose -f docker-compose.prod.yml --env-file .env.prod up -d --build
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-adapp}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB:-adapp}
+    volumes:
+      - adapp_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - adapp
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ${ADAPP_IMAGE:-ad-app:local}
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-adapp}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-adapp}?schema=public
+      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET:?set BETTER_AUTH_SECRET}
+      BETTER_AUTH_URL: ${BETTER_AUTH_URL:-http://127.0.0.1:3000}
+      NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL:-http://127.0.0.1:3000}
+      UPLOAD_DIR: /app/uploads
+    ports:
+      - '${ADAPP_PORT:-3000}:3000'
+    volumes:
+      - adapp_uploads:/app/uploads
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'node',
+          '-e',
+          "require('http').get('http://127.0.0.1:3000/api/health',(r)=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
+    networks:
+      - adapp
+
+volumes:
+  adapp_pg:
+  adapp_uploads:
+
+networks:
+  adapp:

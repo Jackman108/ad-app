@@ -2,7 +2,9 @@ import { mkdir, writeFile } from 'fs/promises';
 import path from 'path';
 import { randomBytes } from 'crypto';
 
-const UPLOAD_ROOT = path.join(process.cwd(), 'uploads');
+const UPLOAD_ROOT = process.env.UPLOAD_DIR
+  ? path.resolve(process.env.UPLOAD_DIR)
+  : path.join(process.cwd(), 'uploads');
 
 export async function saveListingImage(file: File): Promise<{ storageKey: string }> {
   const bytes = Buffer.from(await file.arrayBuffer());
