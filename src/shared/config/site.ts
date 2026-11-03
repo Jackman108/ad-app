@@ -1,6 +1,8 @@
 export const siteConfig = {
-  /** Product name (UI). Public hostname TBD — see docs/guides/deploy-ru.md */
+  /** UI title (RU). BY brand / planned host: abyawki.by (be: Аб'яўкі). */
   name: 'Объявки BY',
+  nameBe: "Аб'яўкі",
+  plannedHost: 'abyawki.by',
   countryCode: 'BY',
   currency: 'BYN',
   phonePrefix: '+375',

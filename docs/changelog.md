@@ -15,6 +15,7 @@
 - S5: Playwright smoke (`e2e/`), rate limit на auth API и мутации (объявления/сообщения/жалобы)
 - Prod: standalone Dockerfile, `docker-compose.prod.yml`, `/api/health`, `docs/guides/deploy-ru.md`
 - Бренд **Объявки BY**; VPS-compose рядом с febcode с mem/cpu limits (`server/ad-app`)
+- Планируемый домен **abyawki.by** (be: Аб'яўкі)
 - Fix inbox: `Pop-AgentInbox` показывает/resume `in_progress` (без потери команд)
 - Каркас документации (`docs/`) и Cursor rules (`.cursor/rules/`)
 - Анализ окружения и архитектуры
