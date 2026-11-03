@@ -49,7 +49,7 @@
 | S2.1 | DTO Public / Contact (без телефона в public) | ✅ |
 | S2.2 | Use-case: create+publish (FSM check) | ✅ |
 | S2.3 | Форма «Новое объявление» `/listings/new` | ✅ |
-| S2.4 | «Мои объявления» + редактирование draft | ⬜ |
+| S2.4 | «Мои объявления» + смена статуса (FSM) | ✅ |
 | S2.5 | Карточка `/listings/[slug]` (public) | ✅ |
 | S2.6 | Guard: только auth создаёт | ✅ |
 | S2.7 | Лента published на `/` | ✅ |

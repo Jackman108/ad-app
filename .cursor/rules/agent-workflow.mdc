@@ -19,14 +19,17 @@ alwaysApply: true
 - UI только CSS Modules + tokens; auth по ADR 0002
 - Не коммитить без явной просьбы пользователя
 
-## Phone inbox (обязательно)
+## Phone inbox (обязательно, без потерь)
 
-На каждом тике цикла:
-1. `Pop-AgentInbox.ps1` (list) — смотреть и `pending`, и `in_progress`
-2. Затем `-Claim` — вернёт stuck `in_progress` (resume) или новый pending
-3. Сделать задачу → `-Complete id -Reply …`
-4. Пусто (`pending=0` / `{"empty":true}`) — только тогда молчать
-5. **Никогда** не считать inbox пустым, если есть `in_progress` без Complete
+**Запрещено:** игнорировать `in_progress`; отвечать «пусто», пока есть claimed; Complete без ответа по сути; два агента Claim параллельно; закрывать цикл в другом чате.
+
+На каждом тике:
+1. List — смотреть **и** `pending`, **и** `in_progress`
+2. `-Claim` — сначала resume stuck `in_progress`, иначе новый pending
+3. Выполнить задачу → `-Complete id -Reply …` (короткий итог пользователю)
+4. Молчать только при реальном пустом inbox (`pending=0` и нет `in_progress` / `{"empty":true}`)
+5. После compaction / смены чата — сразу List+Claim; не начинать «с нуля», пока inbox не чист
+6. Один активный 5m-loop только в этом чате Ad App
 
 ## Качество
 
