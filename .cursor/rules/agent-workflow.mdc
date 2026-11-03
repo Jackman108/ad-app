@@ -17,7 +17,7 @@ alwaysApply: true
 - ADR 0001/0002 приняты — scaffold кода только по явной команде пользователя («scaffold / создавай код»)
 - `packageManager` = yarn@1.22.22; не переключать на npm/pnpm
 - UI только CSS Modules + tokens; auth по ADR 0002
-- Не коммитить без явной просьбы пользователя
+- Git: после логического завершения задачи/фичи/fixа — **commit + push** ([git-workflow.mdc](git-workflow.mdc)); не копить WIP на remote
 
 ## Phone inbox (обязательно, без потерь)
 

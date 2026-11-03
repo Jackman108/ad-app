@@ -1,0 +1,38 @@
+---
+description: Commit + push после логического завершения задачи
+alwaysApply: true
+---
+
+# Git: коммит и push
+
+Канон: [docs/guides/git-workflow-ru.md](../../docs/guides/git-workflow-ru.md).
+
+## Когда пушить (обязательно)
+
+После **логического завершения** единицы работы — без ожидания отдельной просьбы «закоммить / запушь»:
+
+- закрыта задача / тикет / пункт спринта;
+- реализована фича (use-case + UI/API, что входило в scope);
+- сделан fix бага (с проверкой по возможности);
+- завершён осмысленный docs/ADR/rules пакет по задаче.
+
+Один логический кусок → один (или несколько связанных) Conventional Commit → `git push` в текущую tracking-ветку.
+
+## Когда не пушить
+
+- Середина работы, сломанный build/`typecheck`, незавершённый WIP без смысла для remote
+- Секреты (`.env`, ключи) — никогда в git
+- Force-push в `main`/`master` — только по явной просьбе пользователя
+- Amend уже запушенного коммита — только по явной просьбе
+
+## Как
+
+1. `git status` / `diff` / recent log — как в user git protocol
+2. Сообщение: Conventional Commits (`feat:`, `fix:`, `docs:`, `chore:`, …), header ≤ 150
+3. Husky: pre-commit (lint-staged + typecheck), commit-msg (commitlint)
+4. `git push -u` при первом push ветки; иначе обычный `git push`
+5. В ответе пользователю — кратко: что закоммичено и что запушено (ветка / remote)
+
+## Changelog
+
+Перед коммитом по задаче — пункт в `docs/changelog.md` `[Unreleased]`, если ещё не добавлен.

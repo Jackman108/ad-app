@@ -26,6 +26,7 @@ alwaysApply: true
 - Индекс: `docs/README.md`
 - Спринты: `docs/guides/sprint-map-ru.md`
 - Стек: ADR 0001; окружение: `docs/guides/environment-ru.md`
+- Git: [guides/git-workflow-ru.md](../../docs/guides/git-workflow-ru.md) · правило `git-workflow.mdc`
 - Именование docs: kebab-case; RU-гайды с суффиксом `-ru.md`
 - Один источник правды; после задач обновлять `docs/changelog.md` и затронутые guides/ADR/rules
 
@@ -35,6 +36,7 @@ alwaysApply: true
 - **SOLID / DRY / KISS / YAGNI** — без лишних абстракций и микросервисов
 - Код быстрый и поддерживаемый: индексы, `take` на списках, RSC по умолчанию
 - TypeScript everywhere; секреты не коммитить (`.env` в gitignore)
+- После логического завершения задачи/фичи/fixа — commit + push (не ждать отдельной просьбы)
 
 ## Язык общения
 

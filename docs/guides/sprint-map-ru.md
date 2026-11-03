@@ -1,17 +1,19 @@
-# Карта разработки Объявки BY (спринты → рабочий MVP)
+# Карта разработки Объявки BY (спринты → рабочий MVP+)
 
-**Обновлено**: 03.11.2026  
+**Обновлено**: 04.11.2026  
 **Бренд:** Объявки BY · **host:** abyawki.by (план)  
-**Цель «готово»:** локально (и желательно на VPS) частник регистрируется, публикует объявление с фото, другой юзер видит ленту/карточку, пишет in-app, видит телефон после входа.
+**Цель «готово»:** частник регистрируется, публикует с фото, другой видит ленту/карточку, пишет in-app, видит телефон после входа; discovery близко к BY-рынку (категории, гео, фильтры, актуальная лента).
 
-Канон: [strategy-plan-ru.md](strategy-plan-ru.md) · [domain-model-ru.md](domain-model-ru.md) · ADR 0001–0003 · [аудит](sprint-audit-2026-11-03-ru.md).
+Канон: [strategy-plan-ru.md](strategy-plan-ru.md) · [domain-model-ru.md](domain-model-ru.md) · ADR 0001–0003 · [аудит 04.11](sprint-audit-2026-11-04-ru.md).
 
 ```text
-[S0 Foundation]──►[S1 Auth email]──►[S2 Listings CRUD]
-                                           │
-                                           ▼
-[S5 Smoke+Deploy]◄──[S4 In-app deals]◄──[S3 Feed+Images+Filters]
+[S0]─►[S1]─►[S2]─►[S3]─►[S4]─►[S5]  ✅/🟡 ядро
+                              │
+                              ▼
+                    [S6 Каталог+гео]─►[S7 Фильтры+]─►[S8 Горячая лента]─►[S9 UX]
 ```
+
+**Готовность (04.11):** ядро сделки **~88%** · discovery **~28%** · soft-launch BY **~65–68%**.
 
 ---
 
@@ -19,95 +21,120 @@
 
 | # | Задача | Статус |
 | --- | --- | --- |
-| S0.1 | Docs, ADR, Cursor rules | ✅ |
-| S0.2 | Next + TS + CSS Modules scaffold | ✅ |
-| S0.3 | Docker Postgres + Prisma schema MVP | ✅ |
-| S0.4 | Сиды Region/Locality/Category РБ | ✅ |
-| S0.5 | Главная со статистикой | ✅ |
-
-**Exit:** `next build`, БД, сиды.
+| S0.1–S0.5 | Docs, Next, Prisma, сиды, главная | ✅ |
 
 ---
 
-## S1 — Identity (email) ✅ / 🟡
+## S1 — Identity ✅ / ⏸
 
 | # | Задача | Статус |
 | --- | --- | --- |
-| S1.1 | Better Auth + Prisma session/account | ✅ |
-| S1.2 | `/register`, `/login`, сессия на главной | ✅ |
-| S1.3 | Sign-out на UI | ✅ |
-| S1.4 | Reset password (SMTP) | ⏸ внешний SMTP |
-| S1.5 | Google / Telegram / phone OTP | ⏸ секреты |
-
-**Exit для движения дальше:** email+пароль работает (уже). OAuth/SMS — параллельно, не блокируют S2.
+| S1.1–S1.3 | Better Auth email, UI, sign-out | ✅ |
+| S1.4 | Reset password (SMTP) | ⏸ |
+| S1.5 | Google / Telegram / phone OTP | ⏸ |
 
 ---
 
 ## S2 — Listings CRUD ✅
 
-| # | Задача | Статус |
-| --- | --- | --- |
-| S2.1 | DTO Public / Contact (без телефона в public) | ✅ |
-| S2.2 | Use-case: create+publish (FSM check) | ✅ |
-| S2.3 | Форма «Новое объявление» `/listings/new` | ✅ |
-| S2.4 | «Мои объявления» + смена статуса (FSM) + edit | ✅ |
-| S2.5 | Карточка `/listings/[slug]` (public) | ✅ |
-| S2.6 | Guard: только auth создаёт | ✅ |
-| S2.7 | Лента published на `/` | ✅ |
-| S2.8 | Sign-out | ✅ |
-
-**Exit:** юзер A публикует текст без фото; гость видит карточку **без** телефона.
+Create/publish, my+FSM+edit, карточка, guard, лента published — ✅
 
 ---
 
-## S3 — Лента, фото, фильтры
+## S3 — Лента, фото, фильтры ✅ (базовый)
 
 | # | Задача | Статус |
 | --- | --- | --- |
-| S3.1 | Лента `/` (published) | ✅ |
-| S3.2 | Фильтры: category, locality, price min/max | ✅ |
-| S3.3 | Upload ListingImage (local `uploads/`) | ✅ |
-| S3.4 | Обложка на карточке и в ленте | ✅ |
-| S3.5 | Поиск по title/description | ✅ |
-
-**Exit:** лента с фильтрами и фото — ✅
+| S3.1–S3.5 | Лента, category/locality/price, upload, обложка, q | ✅ |
+| — | Дерево категорий в UI, полный geo, расширенные фильтры | → S6–S7 |
 
 ---
 
-## S4 — Сделки in-app (рабочее ядро продукта)
+## S4 — Сделки in-app ✅
+
+Conversation, Message, inbox, телефон auth, Report — ✅
+
+---
+
+## S5 — Качество и выкладка 🟡
 
 | # | Задача | Статус |
 | --- | --- | --- |
-| S4.1 | Conversation UNIQUE(listing, buyer) | ✅ |
-| S4.2 | Message send/list | ✅ |
-| S4.3 | Inbox UI + тред `/inbox` | ✅ |
-| S4.4 | Телефон автора только для auth | ✅ |
-| S4.5 | Report (жалоба) минимум | ✅ |
-
-**Exit:** два юзера переписываются in-app — ✅ (проверь вручную двумя аккаунтами)
+| S5.1 | Playwright smoke | ✅ (канал chrome; полный chromium — по сети) |
+| S5.2 | Rate limit | ✅ |
+| S5.3 | Dockerfile / standalone deploy | ✅ |
+| S5.4 | VPS без домена | 🟡 live `:3010` |
+| S5.5 | GitHub | ✅ |
+| S5.6 | Quality gates (ESLint, tsc, Husky, commitlint) | ✅ |
+| S5.7 | Домен abyawki.by + TLS | ⏸ покупка |
 
 ---
 
-## S5 — Качество и выкладка ⬅️ текущий
+## S6 — Каталог и геосправочник ⬅️ следующий продуктовый
+
+**Цель:** структурированные категории/подкатегории + полный список городов по областям РБ.
 
 | # | Задача | Статус |
 | --- | --- | --- |
-| S5.1 | Playwright smoke | ✅ (пакет/браузеры — доустановить по сети) |
-| S5.2 | Rate limit | ✅ (auth middleware + server actions) |
-| S5.3 | Dockerfile app | ✅ (сборка образа на msi часто тормозит npm ci) |
-| S5.4 | Деплой VPS + abyawki.by | 🟡 compose.prod + health; DNS/TLS после покупки домена |
-| S5.5 | GitHub repo + push | ✅ https://github.com/Jackman108/ad-app |
+| S6.1 | UI дерева категорий (родитель → дети; только leaf в create) | ⬜ |
+| S6.2 | Фильтр/навигация: выбор parent включает children в where | ⬜ |
+| S6.3 | Расширить сид Category (ближе к Kufar-корзине, без EAV) | ⬜ |
+| S6.4 | Справочник Locality: полный CSV/JSON городов+районов BY по Region | ⬜ |
+| S6.5 | UI: сначала Region, затем Locality (cascade; не плоский select на 1000+) | ⬜ |
+| S6.6 | URL/slug категории (опционально `/c/[slug]`) | ⬜ |
+
+**Exit:** создать объявление с подкатегорией; фильтр по области сужает города; в БД ≥ основных райцентров всех 6 областей + Минск.
+
+**Опора:** Kufar region→area; domain-model Region/Locality уже есть.
 
 ---
 
-## Вне MVP
+## S7 — Расширенный поиск и фильтры
 
-| Тема | Статус |
-| --- | --- |
-| Избранное UI | ✅ `/favorites` + кнопка на карточке |
-| Notification badge | ⬜ |
-| EAV-атрибуты · платежи · модерация · отдельный хост | ⬜ |
+| # | Задача | Статус |
+| --- | --- | --- |
+| S7.1 | Фильтры: regionId, condition, «только с фото», sort (new / priceAsc / priceDesc) | ⬜ |
+| S7.2 | Relevant sort при `q`: title match выше description (без отдельного search engine) | ⬜ |
+| S7.3 | Sticky/compact filter bar + сброс; счётчик «Найдено N» | ⬜ |
+| S7.4 | Пагинация / cursor `take`+`skip` или keyset по publishedAt | ⬜ |
+| S7.5 | Поиск по имени категории в мобилке (ответ на боль Kufar) | ⬜ |
+
+**Exit:** выдача как у Kufar-минимум: гео cascade + цена + состояние + фото + сортировка.
+
+---
+
+## S8 — Актуальная / «горячая» лента на главной
+
+| # | Задача | Статус |
+| --- | --- | --- |
+| S8.1 | Поле `bumpedAt` (или reuse publishedAt bump) + лимит bump для продавца | ⬜ |
+| S8.2 | Режимы главной: «Новые» / «Актуальные» (bumpedAt desc) | ⬜ |
+| S8.3 | Лёгкий diversity: не более N подряд из одной category (Avito-inspired, без ML) | ⬜ |
+| S8.4 | Блок «Горячее» = недавние с фото + bump за 48ч (эвристика) | ⬜ |
+| S8.5 | Явная метка «Поднято» на карточке (честность как у promote disclosures) | ⬜ |
+
+**Exit:** главная не только сырой `publishedAt`; продавец может «поднять» в разумных лимитах.
+
+**Не в S8:** paid promote, CTR-ML, personalized home.
+
+---
+
+## S9 — UX polish по лучшим практикам
+
+| # | Задача | Статус |
+| --- | --- | --- |
+| S9.1 | Сетка категорий на главной (иконки/чипы) | ⬜ |
+| S9.2 | Notification badge непрочитанных в inbox | ⬜ |
+| S9.3 | Сохранённый поиск (опционально, auth) | ⬜ |
+| S9.4 | Empty states + «похожие» по category на карточке | ⬜ |
+| S9.5 | Ручной смоук + e2e на S6–S8 сценарии | ⬜ |
+
+---
+
+## Вне ближайших спринтов
+
+EAV-атрибуты · модерация-админка · платежи/promote paid · радиус км · карта · компании · отдельный хост.
 
 ## Блокеры снаружи
 
-SMTP · Google OAuth · Telegram bot · SMS BY — нужны для S1.4–S1.5, **не** для exit S4.
+SMTP · Google OAuth · Telegram bot · SMS BY · покупка домена — **не** блокируют S6–S8.
