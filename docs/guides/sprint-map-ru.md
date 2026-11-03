@@ -91,8 +91,8 @@
 
 | # | Задача | Статус |
 | --- | --- | --- |
-| S5.1 | Playwright smoke | ⬜ |
-| S5.2 | Rate limit | ⬜ |
+| S5.1 | Playwright smoke | ✅ (`yarn test:e2e`) |
+| S5.2 | Rate limit | ✅ (auth middleware + server actions) |
 | S5.3 | Dockerfile app | ✅ |
 | S5.4 | Деплой VPS lendings | ⬜ |
 | S5.5 | GitHub repo + push | ✅ https://github.com/Jackman108/ad-app |

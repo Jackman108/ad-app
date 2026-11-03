@@ -12,6 +12,7 @@
 - `sprint-map-ru.md`: карта S0–S5; S2: лента, `/listings/new`, карточка, DTO без телефона для гостя
 - `clean-code-ru.md` + rule `clean-architecture.mdc`; жалобы на объявление (Report)
 - `/my/listings`: список объявлений продавца + переходы статуса через FSM
+- S5: Playwright smoke (`e2e/`), rate limit на auth API и мутации (объявления/сообщения/жалобы)
 - Fix inbox: `Pop-AgentInbox` показывает/resume `in_progress` (без потери команд)
 - Каркас документации (`docs/`) и Cursor rules (`.cursor/rules/`)
 - Анализ окружения и архитектуры
