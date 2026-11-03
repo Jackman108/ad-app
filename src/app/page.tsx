@@ -1,7 +1,13 @@
 import Link from 'next/link';
 import { headers } from 'next/headers';
 import { formatPriceByn, toListingPublic } from '@/entities/listing/model/dto';
-import { buildFeedWhere } from '@/features/browse-listings/model/feed-query';
+import {
+  FEED_PAGE_SIZE,
+  buildFeedOrderBy,
+  buildFeedWhere,
+  parseFeedPage,
+  rankListingsByQuery,
+} from '@/features/browse-listings/model/feed-query';
 import { FeedFilters } from '@/features/browse-listings/ui/FeedFilters';
 import { countUnreadForUser } from '@/features/contact-seller/model/unread';
 import { auth } from '@/shared/lib/auth';
@@ -18,7 +24,22 @@ type Search = {
   priceMin?: string;
   priceMax?: string;
   q?: string;
+  condition?: string;
+  hasPhoto?: string;
+  sort?: string;
+  page?: string;
 };
+
+function buildPageHref(sp: Search, page: number): string {
+  const params = new URLSearchParams();
+  for (const [key, value] of Object.entries(sp)) {
+    if (key === 'page') continue;
+    if (value) params.set(key, value);
+  }
+  if (page > 1) params.set('page', String(page));
+  const qs = params.toString();
+  return qs ? `/?${qs}` : '/';
+}
 
 export default async function HomePage({
   searchParams,
@@ -27,6 +48,8 @@ export default async function HomePage({
 }) {
   const session = await auth.api.getSession({ headers: await headers() });
   const sp = await searchParams;
+  const page = parseFeedPage(sp.page);
+  const skip = (page - 1) * FEED_PAGE_SIZE;
 
   const [categories, regions, localities, unreadCount] = await Promise.all([
     prisma.category.findMany({
@@ -54,18 +77,27 @@ export default async function HomePage({
   ]);
 
   const where = buildFeedWhere(sp, categories);
-  const rows = await prisma.listing.findMany({
-    where,
-    orderBy: { publishedAt: 'desc' },
-    take: 50,
-    include: {
-      category: true,
-      locality: { include: { region: true } },
-      seller: true,
-      images: true,
-    },
-  });
-  const listings = rows.map(toListingPublic);
+  const orderBy = buildFeedOrderBy(sp);
+
+  const [totalCount, rows] = await Promise.all([
+    prisma.listing.count({ where }),
+    prisma.listing.findMany({
+      where,
+      orderBy,
+      skip,
+      take: FEED_PAGE_SIZE,
+      include: {
+        category: true,
+        locality: { include: { region: true } },
+        seller: true,
+        images: true,
+      },
+    }),
+  ]);
+
+  const ranked = rankListingsByQuery(rows, sp.q, sp.sort);
+  const listings = ranked.map(toListingPublic);
+  const totalPages = Math.max(1, Math.ceil(totalCount / FEED_PAGE_SIZE));
 
   return (
     <main className={styles.main}>
@@ -79,12 +111,18 @@ export default async function HomePage({
         regions={regions}
         localities={localities}
         defaults={sp}
+        totalCount={totalCount}
       />
 
       {listings.length === 0 ? (
         <p className={styles.meta}>
           Ничего не найдено.{' '}
-          {session?.user ? <Link href="/listings/new">Опубликуйте</Link> : <Link href="/register">Зарегистрируйтесь</Link>}.
+          {session?.user ? (
+            <Link href="/listings/new">Опубликуйте</Link>
+          ) : (
+            <Link href="/register">Зарегистрируйтесь</Link>
+          )}
+          .
         </p>
       ) : (
         <ul className={styles.list}>
@@ -109,6 +147,28 @@ export default async function HomePage({
           ))}
         </ul>
       )}
+
+      {totalPages > 1 ? (
+        <nav className={styles.pager} aria-label="Страницы">
+          {page > 1 ? (
+            <Link className={styles.pagerLink} href={buildPageHref(sp, page - 1)}>
+              ← Назад
+            </Link>
+          ) : (
+            <span className={styles.pagerMuted}>← Назад</span>
+          )}
+          <span className={styles.pagerMeta}>
+            {page} / {totalPages}
+          </span>
+          {page < totalPages ? (
+            <Link className={styles.pagerLink} href={buildPageHref(sp, page + 1)}>
+              Вперёд →
+            </Link>
+          ) : (
+            <span className={styles.pagerMuted}>Вперёд →</span>
+          )}
+        </nav>
+      ) : null}
     </main>
   );
 }

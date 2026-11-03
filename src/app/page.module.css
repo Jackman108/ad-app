@@ -135,3 +135,32 @@
   color: var(--color-muted);
   font-size: 0.85rem;
 }
+
+.pager {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+}
+
+.pagerLink {
+  color: var(--color-accent);
+  text-decoration: none;
+  font-weight: 550;
+}
+
+.pagerLink:hover {
+  text-decoration: underline;
+}
+
+.pagerMuted {
+  color: var(--color-muted);
+  opacity: 0.55;
+}
+
+.pagerMeta {
+  color: var(--color-muted);
+  font-variant-numeric: tabular-nums;
+}

@@ -13,6 +13,7 @@
 - Git: политика commit+push после логического завершения задачи/фичи/fixа (`git-workflow.mdc`, `guides/git-workflow-ru.md`)
 - Ядро сделки: `readAt`/unread badge, `ContactPanel`, общий `AppHeader`, e2e deal-core; S8 `bumpedAt` отложен; справочники BY в `prisma/data/` — задел под S6
 - S6: сиды категорий/городов BY; cascade Region→Locality; фильтр category tree (parent→children); FeedFilters + ListingTaxonomyFields
+- S7: лента — condition, «только с фото» (`images.some`), sort new/price, sticky filters + «Найдено N», pagination; relevant title>description при `q`
 
 ### Added
 

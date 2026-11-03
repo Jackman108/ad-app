@@ -10,10 +10,10 @@
 [S0]─►[S1]─►[S2]─►[S3]─►[S4]─►[S5]  ✅/🟡 ядро
                               │
                               ▼
-                    [S6 Каталог+гео]─►[S7 Фильтры+]─►[S8 Горячая лента]─►[S9 UX]
+                    [S6 Каталог+гео]─►[S7 Фильтры+ ✅]─►[S8 Горячая лента]─►[S9 UX]
 ```
 
-**Готовность (04.11, уточн.):** ядро сделки **~93%** (unread + ContactPanel + e2e) · discovery **~28%** · soft-launch BY **~68%**.
+**Готовность (04.11, уточн.):** ядро сделки **~93%** · discovery **~55%** (S6+S7) · soft-launch BY **~72%**.
 
 ---
 
@@ -96,17 +96,19 @@ Create/publish, my+FSM+edit, карточка, guard, лента published — �
 
 ---
 
-## S7 — Расширенный поиск и фильтры ⬅️ следующий
+## S7 — Расширенный поиск и фильтры ✅ (почти)
 
 | # | Задача | Статус |
 | --- | --- | --- |
-| S7.1 | Фильтры: regionId, condition, «только с фото», sort (new / priceAsc / priceDesc) | ⬜ |
-| S7.2 | Relevant sort при `q`: title match выше description (без отдельного search engine) | ⬜ |
-| S7.3 | Sticky/compact filter bar + сброс; счётчик «Найдено N» | ⬜ |
-| S7.4 | Пагинация / cursor `take`+`skip` или keyset по publishedAt | ⬜ |
+| S7.1 | Фильтры: regionId, condition, «только с фото», sort (new / priceAsc / priceDesc) | ✅ |
+| S7.2 | Relevant sort при `q`: title match выше description (без отдельного search engine) | ✅ |
+| S7.3 | Sticky/compact filter bar + сброс; счётчик «Найдено N» | ✅ |
+| S7.4 | Пагинация `take`+`skip` + page в URL | ✅ |
 | S7.5 | Поиск по имени категории в мобилке (ответ на боль Kufar) | ⬜ |
 
-**Exit:** выдача как у Kufar-минимум: гео cascade + цена + состояние + фото + сортировка.
+**Exit:** выдача как у Kufar-минимум: гео cascade + цена + состояние + фото + сортировка — ✅; S7.5 — следующий мелкий UX.
+
+**Следующий:** S8 горячая лента / bump.
 
 ---
 
