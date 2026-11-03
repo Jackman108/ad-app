@@ -3,8 +3,10 @@ import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { formatPriceByn } from '@/entities/listing/model/dto';
 import { canTransitionListing, type ListingStatus } from '@/entities/listing/model/status';
+import { countUnreadForUser } from '@/features/contact-seller/model/unread';
 import { auth } from '@/shared/lib/auth';
 import { prisma } from '@/shared/lib/prisma';
+import { AppHeader } from '@/shared/ui/AppHeader';
 import { changeListingStatus } from './actions';
 import styles from './page.module.css';
 
@@ -37,6 +39,7 @@ export default async function MyListingsPage() {
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session?.user) redirect('/login');
 
+  const unreadCount = await countUnreadForUser(session.user.id);
   const rows = await prisma.listing.findMany({
     where: { sellerId: session.user.id, deletedAt: null },
     orderBy: [{ updatedAt: 'desc' }],
@@ -49,11 +52,7 @@ export default async function MyListingsPage() {
 
   return (
     <main className={styles.main}>
-      <p className={styles.back}>
-        <Link href="/">← На главную</Link>
-        {' · '}
-        <Link href="/listings/new">Подать</Link>
-      </p>
+      <AppHeader userName={session.user.name} unreadCount={unreadCount} />
       <h1 className={styles.title}>Мои объявления</h1>
       <p className={styles.lead}>Статусы меняются только по правилам FSM.</p>
 

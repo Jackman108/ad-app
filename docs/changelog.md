@@ -11,6 +11,7 @@
 - Quality gates: Husky + commitlint + lint-staged; `npm run check`; Playwright smoke (лента / guest→login / create→карточка); `environment-ru` обновлён
 - Аудит 04.11: готовность ~66% soft-launch / ~88% ядро; sprint-map S6–S9 (каталог+гео, фильтры+, горячая лента, UX); конкуренты Kufar/OLX/Avito
 - Git: политика commit+push после логического завершения задачи/фичи/fixа (`git-workflow.mdc`, `guides/git-workflow-ru.md`)
+- Ядро сделки: `readAt`/unread badge, `ContactPanel`, общий `AppHeader`, e2e deal-core; S8 `bumpedAt` отложен; справочники BY в `prisma/data/` — задел под S6
 
 ### Added
 

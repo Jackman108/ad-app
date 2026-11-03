@@ -1,0 +1,38 @@
+.panel {
+  margin-top: 1.75rem;
+  padding: 1.1rem 1.15rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  background: var(--color-surface);
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.lead {
+  margin: 0;
+  font-weight: 650;
+  font-size: 1rem;
+}
+
+.hint {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.phone {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.phone a {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+.phone a:hover {
+  text-decoration: underline;
+}

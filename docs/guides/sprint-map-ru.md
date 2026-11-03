@@ -13,7 +13,7 @@
                     [S6 Каталог+гео]─►[S7 Фильтры+]─►[S8 Горячая лента]─►[S9 UX]
 ```
 
-**Готовность (04.11):** ядро сделки **~88%** · discovery **~28%** · soft-launch BY **~65–68%**.
+**Готовность (04.11, уточн.):** ядро сделки **~93%** (unread + ContactPanel + e2e) · discovery **~28%** · soft-launch BY **~68%**.
 
 ---
 
@@ -52,7 +52,14 @@ Create/publish, my+FSM+edit, карточка, guard, лента published — �
 
 ## S4 — Сделки in-app ✅
 
-Conversation, Message, inbox, телефон auth, Report — ✅
+| # | Задача | Статус |
+| --- | --- | --- |
+| S4.1–S4.5 | Conversation, Message, inbox, телефон auth, Report | ✅ |
+| S4.6 | Unread (`readAt`) + badge в шапке/inbox | ✅ |
+| S4.7 | ContactPanel + общий AppHeader | ✅ |
+| S4.8 | E2E ядра (2 browser context) | ✅ |
+
+**Exit:** два юзера переписываются in-app — ✅
 
 ---
 

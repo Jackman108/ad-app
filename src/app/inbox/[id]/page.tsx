@@ -1,8 +1,13 @@
 import Link from 'next/link';
 import { headers } from 'next/headers';
 import { notFound, redirect } from 'next/navigation';
+import {
+  countUnreadForUser,
+  markConversationRead,
+} from '@/features/contact-seller/model/unread';
 import { auth } from '@/shared/lib/auth';
 import { prisma } from '@/shared/lib/prisma';
+import { AppHeader } from '@/shared/ui/AppHeader';
 import { replyAction } from './actions';
 import styles from './page.module.css';
 
@@ -28,12 +33,17 @@ export default async function ConversationPage({ params }: Props) {
     notFound();
   }
 
+  // Use-case «открыл тред» → входящие прочитаны (поле readAt уже в домене).
+  await markConversationRead(conversation.id, session.user.id);
+
+  const unreadCount = await countUnreadForUser(session.user.id);
   const send = replyAction.bind(null, conversation.id);
 
   return (
     <main className={styles.main}>
+      <AppHeader userName={session.user.name} unreadCount={unreadCount} />
       <p className={styles.back}>
-        <Link href="/inbox">← Inbox</Link>
+        <Link href="/inbox">← Сообщения</Link>
       </p>
       <h1 className={styles.title}>
         <Link href={`/listings/${conversation.listing.slug}`}>{conversation.listing.title}</Link>
@@ -46,11 +56,28 @@ export default async function ConversationPage({ params }: Props) {
           >
             <span className={styles.who}>{m.sender.name}</span>
             <p className={styles.body}>{m.body}</p>
+            <time className={styles.time} dateTime={m.createdAt.toISOString()}>
+              {m.createdAt.toLocaleString('ru-BY', {
+                day: 'numeric',
+                month: 'short',
+                hour: '2-digit',
+                minute: '2-digit',
+              })}
+            </time>
           </li>
         ))}
       </ul>
       <form className={styles.form} action={send}>
-        <textarea name="body" required rows={3} className={styles.textarea} placeholder="Сообщение…" />
+        <label className={styles.label}>
+          Ответить
+          <textarea
+            name="body"
+            required
+            rows={3}
+            className={styles.textarea}
+            placeholder="Сообщение…"
+          />
+        </label>
         <button type="submit" className={styles.submit}>
           Отправить
         </button>

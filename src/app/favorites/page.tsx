@@ -2,8 +2,10 @@ import Link from 'next/link';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { formatPriceByn, toListingPublic } from '@/entities/listing/model/dto';
+import { countUnreadForUser } from '@/features/contact-seller/model/unread';
 import { auth } from '@/shared/lib/auth';
 import { prisma } from '@/shared/lib/prisma';
+import { AppHeader } from '@/shared/ui/AppHeader';
 import styles from '../page.module.css';
 
 export const dynamic = 'force-dynamic';
@@ -12,6 +14,7 @@ export default async function FavoritesPage() {
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session?.user) redirect('/login');
 
+  const unreadCount = await countUnreadForUser(session.user.id);
   const rows = await prisma.favorite.findMany({
     where: { userId: session.user.id, listing: { status: 'PUBLISHED', deletedAt: null } },
     orderBy: { createdAt: 'desc' },
@@ -32,9 +35,7 @@ export default async function FavoritesPage() {
 
   return (
     <main className={styles.main}>
-      <p className={styles.lead}>
-        <Link href="/">← Лента</Link>
-      </p>
+      <AppHeader userName={session.user.name} unreadCount={unreadCount} />
       <h1 className={styles.title}>Избранное</h1>
       {listings.length === 0 ? (
         <p className={styles.lead}>Пока пусто — отметь объявления на карточке.</p>

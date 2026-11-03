@@ -33,8 +33,8 @@ test('регистрация → создание объявления → ка�
   await page.getByLabel('Населённый пункт').selectOption({ index: 1 });
   await page.getByRole('button', { name: 'Опубликовать' }).click();
 
-  await expect(page).toHaveURL(/\/listings\//, { timeout: 20_000 });
-  await expect(page.getByRole('heading', { name: title })).toBeVisible();
+  await expect(page).toHaveURL(/\/listings\/(?!new(?:\/|$))[^/?#]+/, { timeout: 20_000 });
+  await expect(page.getByRole('heading', { name: title })).toBeVisible({ timeout: 15_000 });
   await expect(page.getByText(/Продавец:/)).toBeVisible();
 
   await page.goto('/');

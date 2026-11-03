@@ -2,9 +2,10 @@ import Link from 'next/link';
 import { headers } from 'next/headers';
 import { Prisma } from '@prisma/client';
 import { formatPriceByn, toListingPublic } from '@/entities/listing/model/dto';
-import { SignOutButton } from '@/features/auth-ui/ui/SignOutButton';
+import { countUnreadForUser } from '@/features/contact-seller/model/unread';
 import { auth } from '@/shared/lib/auth';
 import { prisma } from '@/shared/lib/prisma';
+import { AppHeader } from '@/shared/ui/AppHeader';
 import styles from './page.module.css';
 
 export const dynamic = 'force-dynamic';
@@ -45,7 +46,7 @@ export default async function HomePage({
       : {}),
   };
 
-  const [rows, categories, localities] = await Promise.all([
+  const [rows, categories, localities, unreadCount] = await Promise.all([
     prisma.listing.findMany({
       where,
       orderBy: { publishedAt: 'desc' },
@@ -67,31 +68,13 @@ export default async function HomePage({
       orderBy: { name: 'asc' },
       select: { id: true, name: true, region: { select: { name: true } } },
     }),
+    session?.user ? countUnreadForUser(session.user.id) : Promise.resolve(0),
   ]);
   const listings = rows.map(toListingPublic);
 
   return (
     <main className={styles.main}>
-      <header className={styles.header}>
-        <p className={styles.brand}>Объявки BY</p>
-        <nav className={styles.nav}>
-          {session?.user ? (
-            <>
-              <Link href="/listings/new">Подать</Link>
-              <Link href="/my/listings">Мои</Link>
-              <Link href="/favorites">Избранное</Link>
-              <Link href="/inbox">Сообщения</Link>
-              <span className={styles.user}>{session.user.name}</span>
-              <SignOutButton />
-            </>
-          ) : (
-            <>
-              <Link href="/login">Войти</Link>
-              <Link href="/register">Регистрация</Link>
-            </>
-          )}
-        </nav>
-      </header>
+      <AppHeader userName={session?.user?.name} unreadCount={unreadCount} />
 
       <h1 className={styles.title}>Объявления</h1>
       <p className={styles.lead}>Частные лица · Беларусь</p>

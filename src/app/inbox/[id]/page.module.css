@@ -32,7 +32,8 @@
 
 .mine {
   align-self: flex-end;
-  background: #1a3a2a;
+  background: color-mix(in srgb, var(--color-accent) 22%, var(--color-surface));
+  border: 1px solid color-mix(in srgb, var(--color-accent) 35%, var(--color-border));
   margin-left: auto;
 }
 
@@ -54,10 +55,24 @@
   white-space: pre-wrap;
 }
 
+.time {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.7rem;
+  color: var(--color-muted);
+}
+
 .form {
   display: flex;
   flex-direction: column;
   gap: 0.65rem;
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.9rem;
 }
 
 .textarea {

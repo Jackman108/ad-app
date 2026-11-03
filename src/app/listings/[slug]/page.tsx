@@ -2,10 +2,12 @@ import Link from 'next/link';
 import { headers } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { formatPriceByn, toListingContact, toListingPublic } from '@/entities/listing/model/dto';
-import { WriteSellerForm } from '@/features/contact-seller/ui/WriteSellerForm';
+import { ContactPanel } from '@/features/contact-seller/ui/ContactPanel';
+import { countUnreadForUser } from '@/features/contact-seller/model/unread';
 import { ReportForm } from '@/features/report-listing/ui/ReportForm';
 import { auth } from '@/shared/lib/auth';
 import { prisma } from '@/shared/lib/prisma';
+import { AppHeader } from '@/shared/ui/AppHeader';
 import { writeToSeller } from './message-actions';
 import { reportListingAction } from './report-actions';
 import { toggleFavoriteAction } from './favorite-actions';
@@ -36,26 +38,24 @@ export default async function ListingPage({ params }: Props) {
   const write = writeToSeller.bind(null, row.id);
   const report = reportListingAction.bind(null, row.id);
 
-  const favorited = session?.user
-    ? Boolean(
-        await prisma.favorite.findUnique({
-          where: { userId_listingId: { userId: session.user.id, listingId: row.id } },
-          select: { id: true },
-        }),
-      )
-    : false;
+  const [favorited, unreadCount] = await Promise.all([
+    session?.user
+      ? prisma.favorite
+          .findUnique({
+            where: { userId_listingId: { userId: session.user.id, listingId: row.id } },
+            select: { id: true },
+          })
+          .then((f) => Boolean(f))
+      : Promise.resolve(false),
+    session?.user ? countUnreadForUser(session.user.id) : Promise.resolve(0),
+  ]);
   const toggleFav = toggleFavoriteAction.bind(null, row.id, row.slug);
 
   return (
     <main className={styles.main}>
+      <AppHeader userName={session?.user?.name} unreadCount={unreadCount} />
       <p className={styles.back}>
         <Link href="/">← Лента</Link>
-        {isAuthed ? (
-          <>
-            {' · '}
-            <Link href="/favorites">Избранное</Link>
-          </>
-        ) : null}
       </p>
       {cover ? (
         // eslint-disable-next-line @next/next/no-img-element
@@ -67,17 +67,6 @@ export default async function ListingPage({ params }: Props) {
       <h1 className={styles.title}>{view.title}</h1>
       <p className={styles.price}>{formatPriceByn(view.priceMinor)}</p>
       <p className={styles.seller}>Продавец: {view.seller.name}</p>
-      {isAuthed ? (
-        phone ? (
-          <p className={styles.phone}>Телефон: {phone}</p>
-        ) : (
-          <p className={styles.phoneMuted}>Телефон не подтверждён</p>
-        )
-      ) : (
-        <p className={styles.phoneMuted}>
-          <Link href="/login">Войдите</Link>, чтобы увидеть телефон
-        </p>
-      )}
       <div className={styles.body}>{view.description}</div>
       {isAuthed ? (
         <form action={toggleFav}>
@@ -86,7 +75,7 @@ export default async function ListingPage({ params }: Props) {
           </button>
         </form>
       ) : null}
-      {isAuthed && !isOwner ? <WriteSellerForm action={write} /> : null}
+      <ContactPanel isAuthed={isAuthed} isOwner={isOwner} phone={phone} writeAction={write} />
       {isAuthed && !isOwner ? <ReportForm action={report} slug={row.slug} /> : null}
     </main>
   );
