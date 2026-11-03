@@ -12,6 +12,8 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
+    "check": "npm run lint && npm run typecheck",
+    "commitlint": "commitlint --edit",
     "db:up": "docker compose up -d db",
     "db:down": "docker compose down",
     "db:generate": "prisma generate",
@@ -19,7 +21,13 @@
     "db:seed": "prisma db seed",
     "db:studio": "prisma studio",
     "test:e2e": "playwright test",
-    "test:e2e:install": "playwright install chromium"
+    "test:e2e:install": "playwright install chromium",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,mjs}": [
+      "eslint --max-warnings 0 --no-warn-ignored"
+    ]
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
@@ -33,6 +41,8 @@
     "zod": "^3.25.76"
   },
   "devDependencies": {
+    "@commitlint/cli": "^20.2.0",
+    "@commitlint/config-conventional": "^20.2.0",
     "@eslint/eslintrc": "^3.3.1",
     "@playwright/test": "^1.56.1",
     "@types/node": "^22.18.12",
@@ -40,6 +50,8 @@
     "@types/react-dom": "^19.2.2",
     "eslint": "^9.38.0",
     "eslint-config-next": "^15.5.7",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
     "prisma": "^6.19.0",
     "tsx": "^4.20.5",
     "typescript": "^5.9.3"

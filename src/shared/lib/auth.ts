@@ -16,7 +16,11 @@ export const auth = betterAuth({
       status: { type: 'string', required: false, defaultValue: 'ACTIVE', input: false },
     },
   },
-  trustedOrigins: [process.env.BETTER_AUTH_URL ?? 'http://localhost:3000'],
+  trustedOrigins: [
+    process.env.BETTER_AUTH_URL ?? 'http://localhost:3000',
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+  ],
   plugins: [nextCookies()],
 });
 

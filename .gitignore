@@ -15,3 +15,6 @@ Thumbs.db
 next-env.d.ts
 tsconfig.tsbuildinfo
 /uploads/
+test-results/
+playwright-report/
+blob-report/

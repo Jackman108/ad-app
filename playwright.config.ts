@@ -1,7 +1,8 @@
 import { defineConfig, devices } from '@playwright/test';
 
 const port = Number(process.env.PORT ?? 3000);
-const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? `http://127.0.0.1:${port}`;
+// localhost (не 127.0.0.1) — совпадает с BETTER_AUTH trustedOrigins / cookies
+const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? `http://localhost:${port}`;
 
 export default defineConfig({
   testDir: 'e2e',
@@ -13,6 +14,9 @@ export default defineConfig({
     baseURL,
     trace: 'on-first-retry',
     ...devices['Desktop Chrome'],
+    // Локально: системный Chrome, если `npx playwright install` не докачал build (медленная сеть).
+    // CI / полный install: убрать channel или ставить `npm run test:e2e:install`.
+    channel: process.env.PLAYWRIGHT_CHANNEL ?? 'chrome',
   },
   webServer: process.env.PLAYWRIGHT_BASE_URL
     ? undefined

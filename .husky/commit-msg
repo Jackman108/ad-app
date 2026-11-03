@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+set -e
+# Conventional Commits — см. commitlint.config.mjs
+npx --no -- commitlint --edit "$1"
