@@ -69,15 +69,17 @@
 
 ---
 
-## Z4 — Кабинет мастера
+## Z4 — Кабинет мастера ✅
 
 | # | Задача | Статус |
 | --- | --- | --- |
-| Z4.1 | MasterProfile + `/master/orders` | ⬜ |
-| Z4.2 | Accept / IN_PROGRESS | ⬜ |
-| Z4.3 | Upload AFTER → AWAITING_CONFIRM | ⬜ |
+| Z4.1 | MasterProfile (auto) + `/master/orders` | ✅ |
+| Z4.2 | Accept / IN_PROGRESS | ✅ |
+| Z4.3 | Upload AFTER → AWAITING_CONFIRM | ✅ |
 
-**Exit:** мастер закрывает работу фото-отчётом.
+**Exit:** мастер сдаёт работу фото-отчётом — ✅.
+
+**Следующий:** Z5 подтверждение клиентом.
 
 ---
 

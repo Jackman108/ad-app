@@ -1,85 +1,51 @@
-# Архитектура Ad App
+# Архитектура — Завхоз (репо ad-app)
 
-**Обновлено**: 03.11.2026  
-Доменные сущности: [domain-model-ru.md](domain-model-ru.md) · [ADR 0003](../adr/0003-domain-model.md).  
-Качество кода: [clean-code-ru.md](clean-code-ru.md) · правило `.cursor/rules/clean-architecture.mdc`.
+**Обновлено:** 04.11.2026  
+Домен: [domain-model-zavhoz-ru.md](domain-model-zavhoz-ru.md) · [ADR 0005](../adr/0005-zavhoz-domain-model.md)  
+Пивот: [ADR 0004](../adr/0004-product-pivot-zavhoz.md)  
+Качество: [clean-code-ru.md](clean-code-ru.md) · `.cursor/rules/clean-architecture.mdc`
 
-## Продукт (MVP)
+## Продукт (MVP Завхоз)
 
-Площадка объявлений **от частных лиц** (регион: **Республика Беларусь**):
+B2B «Завхоз на аутсорсе» (РБ, BYN):
 
-1. Регистрация / вход: email, телефон (OTP), Google OAuth, Telegram
-2. Создание и редактирование объявления (текст, цена, категория, фото, город РБ)
-3. Лента и карточка объявления
-4. Поиск / фильтры (категория, цена, город)
-5. Контакт: **in-app переписка** («Написать» → тред в приложении); телефон автора — только авторизованным
-6. Сделки и договорённости не уводятся в внешние мессенджеры/почту
+1. Org / Site — точки клиента  
+2. Заявка WorkOrder + фото BEFORE  
+3. Диспетчер (ADMIN): оценка → offer мастеру  
+4. Мастер: accept → in progress → фото AFTER → ожидание подтверждения  
+5. Клиент org: подтверждение CLOSED (Z5)  
+6. Auth Better Auth; гео Region/Locality reuse  
 
-Вне MVP: платежи, продвижение, realtime (достаточно poll), сложная модерация, native-apps, отдельный хост деплоя, push/email с телом переписки.
+**Архив в том же монолите:** C2C Объявки BY (Listing…) — не развиваем без ADR.
 
-## Стиль архитектуры
+Вне MVP: платежи, ЭДО, подписки сетей, geo-push, native apps.
 
-**Модульный монолит на Next.js App Router** + FSD в `src/`.
+## Стиль
 
-Канон стека: [ADR 0001](../adr/0001-core-stack.md) (принято).  
-Auth и контакт: [ADR 0002](../adr/0002-auth-and-contact.md) (принято).
-
-## Целевая структура репозитория
+**Модульный монолит Next.js App Router** + FSD в `src/`.  
+Стек: [ADR 0001](../adr/0001-core-stack.md).
 
 ```text
-ad-app/
-├── src/
-│   ├── app/                 # Next.js routes (RSC + route handlers)
-│   ├── pages-layer/         # композиции экранов (FSD pages)
-│   ├── widgets/
-│   ├── features/            # create-listing, search, auth-ui, contact-seller, …
-│   ├── entities/            # user, listing, category, location, conversation, …
-│   └── shared/              # ui (CSS Modules), tokens, lib, config
-├── prisma/
-├── public/
-├── docs/
-├── .cursor/rules/
-├── docker-compose.yml
-├── package.json             # yarn@1.22.22
-└── README.md
+src/
+├── app/           # routes: /orders, /dispatch, /master/orders, …
+├── features/      # create-work-order, dispatch-work-order, master-work-order, …
+├── entities/      # work-order (FSM/DTO), listing (архив), …
+└── shared/        # prisma, auth, storage, ui
 ```
 
-Зависимости только «вниз»: app → pages-layer → widgets → features → entities → shared.
+Зависимости только вниз. Мутации — use-case, не сырой Prisma в JSX.  
+Статусы WorkOrder — только `canTransitionWorkOrder`.  
+Фото — `WorkOrderImage` / `saveWorkOrderImage` (байты без перекодирования).
 
-## Доменная модель
+## Маршруты (текущие)
 
-Канон (поля, FSM, MVP vs фаза 2, анти-модель): **[domain-model-ru.md](domain-model-ru.md)**.
-
-Кратко MVP: `User`, `Category`, `Region`, `Locality`, `Listing`, `ListingImage`, `Conversation`, `Message`, `Favorite`, `Report` (+ Better Auth).
-
-## Auth, контакт, медиа
-
-- Сессии: Better Auth; email+пароль; политика контакта/переписки — ADR 0002
-- Переписка только в приложении; внешние каналы не несут текст сделки
-- Медиа: server action → диск (dev) / S3-совместимое (prod); в БД метаданные
-- Поиск: Postgres + индексы; внешний search — позже
-- UI: CSS Modules + `tokens.css` в `shared`
-
-## Безопасность (минимум)
-
-- Same-origin mutations
-- Zod на границах
-- Rate limit: OTP, login, create listing, message
-- Телефон автора не отдавать гостям (API + UI)
-- Секреты только в `.env`
+| Путь | Кто | Спринт |
+| --- | --- | --- |
+| `/orders`, `/orders/new`, `/orders/[id]` | OrgMembership | Z2 |
+| `/dispatch` | ADMIN | Z3 |
+| `/master/orders` | MasterProfile | Z4 |
+| Listing `/`, `/listings/*` | архив | — |
 
 ## Деплой
 
-Временно — тот же VPS-контур, что lendings (Docker). Вынос на отдельный хост — новый ADR.
-
-## Документация и процесс
-
-- Решения → `docs/adr/`
-- После задач → `docs/changelog.md` `[Unreleased]`
-- Rules → `.cursor/rules/` (ссылки, без копипасты гайдов)
-
-## Открытые вопросы (остаток)
-
-1. SMS-провайдер для OTP в РБ
-2. SMTP для писем сброса пароля (провайдер)
-3. Нужен ли в v1 лёгкий notify «новое сообщение» (без текста) или только badge в приложении
+Временно VPS lendings (`:3010`). Витрина Завхоз — Z6.

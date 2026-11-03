@@ -1,27 +1,28 @@
 ---
-description: Clean Architecture, SOLID, чистый код для Ad App
+description: Clean Architecture, SOLID, чистый код для Завхоз
 alwaysApply: true
 ---
 
 # Чистая архитектура и код
 
-Канон: [docs/guides/clean-code-ru.md](../../docs/guides/clean-code-ru.md).
+Канон: [docs/guides/clean-code-ru.md](../../docs/guides/clean-code-ru.md) · [architecture-ru.md](../../docs/guides/architecture-ru.md).
 
 ## Слои
 
 - `app/` — routes, тонкие server actions (session → use-case)
-- `features/*/model` — сценарии и инварианты
-- `entities/*/model` — DTO, FSM, мапперы
+- `features/*/model` — сценарии и инварианты (`create-work-order`, `dispatch-work-order`, `master-work-order`, …)
+- `entities/*/model` — DTO, FSM, мапперы (`work-order`, архив `listing`)
 - `shared/` — prisma, auth, storage, UI-примитивы
 
 Зависимости только вниз (FSD). Не импортировать `app/` из features/entities.
 
 ## Обязательно
 
-- Мутации объявлений/сообщений — через use-case, не сырой Prisma в JSX
-- Публичные DTO **без** телефона продавца
-- Статусы Listing — только через FSM (`canTransitionListing`)
-- KISS/YAGNI: без CQRS/микросервисов «на вырост»
+- Мутации заявок/объявлений/сообщений — через use-case, не сырой Prisma в JSX
+- Org/мастер DTO **без** лишних телефонов в публичных списках
+- Статусы WorkOrder — только FSM (`canTransitionWorkOrder`); Listing (архив) — `canTransitionListing`
+- Фото — `WorkOrderImage` / storage без перекодирования оригинала
+- KISS/YAGNI: без CQRS/микросервисов «на вырост»; Payment/ЭДО не в первой вертикали
 - SOLID по смыслу: SRP в features, DIP от инфраструктуры
 
 ## Паттерны

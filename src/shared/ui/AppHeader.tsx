@@ -22,6 +22,7 @@ export function AppHeader({ userName, unreadCount = 0 }: Props) {
             <Link href="/orders">Заявки</Link>
             <Link href="/orders/new">Новая</Link>
             <Link href="/dispatch">Диспетчер</Link>
+            <Link href="/master/orders">Мастер</Link>
             <Link href="/inbox" className={styles.inboxLink}>
               Сообщения
               {unreadCount > 0 ? (

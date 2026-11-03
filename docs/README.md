@@ -20,7 +20,7 @@
 | Домен объявлений | Архив — [ADR 0003](adr/0003-domain-model.md) |
 | Пивот | **Принято** — [ADR 0004](adr/0004-product-pivot-zavhoz.md) |
 | Домен Завхоз | **Принято** — [ADR 0005](adr/0005-zavhoz-domain-model.md) |
-| Спринты Завхоз | [guides/sprint-map-zavhoz-ru.md](guides/sprint-map-zavhoz-ru.md) · следующий **Z1** schema |
+| Спринты Завхоз | [guides/sprint-map-zavhoz-ru.md](guides/sprint-map-zavhoz-ru.md) · Z0–Z4 в коде; следующий **Z5** confirm |
 
 ## Гайды
 
@@ -32,7 +32,7 @@
 | [guides/domain-model-zavhoz-ru.md](guides/domain-model-zavhoz-ru.md) | Домен Завхоз |
 | [guides/environment-ru.md](guides/environment-ru.md) | Инструменты и локальное окружение |
 | [guides/git-workflow-ru.md](guides/git-workflow-ru.md) | Commit + push после задачи |
-| [guides/architecture-ru.md](guides/architecture-ru.md) | Архитектура / FSD (обновить под Завхоз) |
+| [guides/architecture-ru.md](guides/architecture-ru.md) | Архитектура / FSD Завхоз |
 | [guides/domain-model-ru.md](guides/domain-model-ru.md) | Домен объявлений (архив) |
 | [guides/sprint-map-ru.md](guides/sprint-map-ru.md) | Спринты объявлений (архив S0–S7) |
 | [guides/clean-code-ru.md](guides/clean-code-ru.md) | Clean Architecture, SOLID |
