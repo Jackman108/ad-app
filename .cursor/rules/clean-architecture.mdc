@@ -1,0 +1,29 @@
+---
+description: Clean Architecture, SOLID, чистый код для Ad App
+alwaysApply: true
+---
+
+# Чистая архитектура и код
+
+Канон: [docs/guides/clean-code-ru.md](../../docs/guides/clean-code-ru.md).
+
+## Слои
+
+- `app/` — routes, тонкие server actions (session → use-case)
+- `features/*/model` — сценарии и инварианты
+- `entities/*/model` — DTO, FSM, мапперы
+- `shared/` — prisma, auth, storage, UI-примитивы
+
+Зависимости только вниз (FSD). Не импортировать `app/` из features/entities.
+
+## Обязательно
+
+- Мутации объявлений/сообщений — через use-case, не сырой Prisma в JSX
+- Публичные DTO **без** телефона продавца
+- Статусы Listing — только через FSM (`canTransitionListing`)
+- KISS/YAGNI: без CQRS/микросервисов «на вырост»
+- SOLID по смыслу: SRP в features, DIP от инфраструктуры
+
+## Паттерны
+
+DTO, FSM, Adapter, Guard — да. Лишние абстракции «Repository на каждый чих» — нет, пока нет второго адаптера БД.

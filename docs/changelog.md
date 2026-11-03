@@ -10,6 +10,7 @@
 - Scaffold фазы 0: Next.js App Router, Prisma schema/migration, docker Postgres, сиды РБ, пустая лента `/`
 - Фаза 1 (частично): Better Auth email+пароль, модели session/account/verification, страницы `/login` `/register`
 - `sprint-map-ru.md`: карта S0–S5; S2: лента, `/listings/new`, карточка, DTO без телефона для гостя
+- `clean-code-ru.md` + rule `clean-architecture.mdc`; жалобы на объявление (Report)
 - Fix inbox: `Pop-AgentInbox` показывает/resume `in_progress` (без потери команд)
 - Каркас документации (`docs/`) и Cursor rules (`.cursor/rules/`)
 - Анализ окружения и архитектуры

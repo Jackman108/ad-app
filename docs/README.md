@@ -25,6 +25,7 @@
 | [guides/domain-model-ru.md](guides/domain-model-ru.md) | Сущности, ER, FSM, DTO-безопасность |
 | [guides/strategy-plan-ru.md](guides/strategy-plan-ru.md) | Стратегический план фаз 0–5 |
 | [guides/sprint-map-ru.md](guides/sprint-map-ru.md) | Карта спринтов S0–S5 до рабочего MVP |
+| [guides/clean-code-ru.md](guides/clean-code-ru.md) | Clean Architecture, SOLID, паттерны |
 
 ## ADR
 

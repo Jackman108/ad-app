@@ -1,7 +1,8 @@
 # Архитектура Ad App
 
 **Обновлено**: 03.11.2026  
-Доменные сущности: [domain-model-ru.md](domain-model-ru.md) · [ADR 0003](../adr/0003-domain-model.md).
+Доменные сущности: [domain-model-ru.md](domain-model-ru.md) · [ADR 0003](../adr/0003-domain-model.md).  
+Качество кода: [clean-code-ru.md](clean-code-ru.md) · правило `.cursor/rules/clean-architecture.mdc`.
 
 ## Продукт (MVP)
 

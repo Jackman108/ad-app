@@ -19,21 +19,22 @@ alwaysApply: true
 └── README.md
 ```
 
-Пока кода нет — не выдумывать структуру вне [docs/guides/architecture-ru.md](../../docs/guides/architecture-ru.md).
+Структура и границы слоёв: [architecture-ru.md](../../docs/guides/architecture-ru.md), [clean-code-ru.md](../../docs/guides/clean-code-ru.md), правило `clean-architecture.mdc`.
 
 ## Документация
 
 - Индекс: `docs/README.md`
+- Спринты: `docs/guides/sprint-map-ru.md`
 - Стек: ADR 0001; окружение: `docs/guides/environment-ru.md`
 - Именование docs: kebab-case; RU-гайды с суффиксом `-ru.md`
 - Один источник правды; после задач обновлять `docs/changelog.md` и затронутые guides/ADR/rules
 
 ## Принципы
 
-- **KISS / YAGNI** — MVP без «на вырост» (нет Redis/k8s/отдельного Nest без причины)
-- **SOLID / DRY** — сценарии в `features/`, общее в `shared/`
-- TypeScript everywhere
-- Секреты не коммитить (`.env` в gitignore)
+- **Clean Architecture** в монолите + FSD (use-cases в `features/`, DTO/FSM в `entities/`)
+- **SOLID / DRY / KISS / YAGNI** — без лишних абстракций и микросервисов
+- Код быстрый и поддерживаемый: индексы, `take` на списках, RSC по умолчанию
+- TypeScript everywhere; секреты не коммитить (`.env` в gitignore)
 
 ## Язык общения
 

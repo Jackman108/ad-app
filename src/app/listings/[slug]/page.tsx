@@ -3,9 +3,11 @@ import { headers } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { formatPriceByn, toListingContact, toListingPublic } from '@/entities/listing/model/dto';
 import { WriteSellerForm } from '@/features/contact-seller/ui/WriteSellerForm';
+import { ReportForm } from '@/features/report-listing/ui/ReportForm';
 import { auth } from '@/shared/lib/auth';
 import { prisma } from '@/shared/lib/prisma';
 import { writeToSeller } from './message-actions';
+import { reportListingAction } from './report-actions';
 import styles from './page.module.css';
 
 type Props = { params: Promise<{ slug: string }> };
@@ -31,6 +33,7 @@ export default async function ListingPage({ params }: Props) {
   const phone = isAuthed ? toListingContact(row).sellerPhoneE164 : null;
   const cover = view.coverKey;
   const write = writeToSeller.bind(null, row.id);
+  const report = reportListingAction.bind(null, row.id);
 
   return (
     <main className={styles.main}>
@@ -60,6 +63,7 @@ export default async function ListingPage({ params }: Props) {
       )}
       <div className={styles.body}>{view.description}</div>
       {isAuthed && !isOwner ? <WriteSellerForm action={write} /> : null}
+      {isAuthed && !isOwner ? <ReportForm action={report} slug={row.slug} /> : null}
     </main>
   );
 }
