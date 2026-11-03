@@ -27,6 +27,7 @@ alwaysApply: true
 
 - Индекс: `docs/README.md`
 - Стратегия Завхоз: `docs/guides/strategy-plan-ru.md` (Z0–Z4)
+- Спринты Завхоз: `docs/guides/sprint-map-zavhoz-ru.md`
 - Спринты объявлений (архив): `docs/guides/sprint-map-ru.md`
 - Стек: ADR 0001; пивот: ADR 0004; окружение: `docs/guides/environment-ru.md`
 - Git: [guides/git-workflow-ru.md](../../docs/guides/git-workflow-ru.md) · правило `git-workflow.mdc`

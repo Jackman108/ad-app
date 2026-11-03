@@ -10,3 +10,4 @@
 | 0002 | [0002-auth-and-contact.md](0002-auth-and-contact.md) | Auth-каналы и контакт/телефон | Принято |
 | 0003 | [0003-domain-model.md](0003-domain-model.md) | Доменные сущности объявлений (архив) | Архив |
 | 0004 | [0004-product-pivot-zavhoz.md](0004-product-pivot-zavhoz.md) | Пивот на B2B «Завхоз» | Принято |
+| 0005 | [0005-zavhoz-domain-model.md](0005-zavhoz-domain-model.md) | Домен Завхоз (WorkOrder…) | Принято |

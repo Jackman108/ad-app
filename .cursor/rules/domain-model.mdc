@@ -1,24 +1,25 @@
 ---
-description: Канон доменных сущностей Ad App
+description: Канон доменных сущностей Завхоз (архив объявлений — ADR 0003)
 alwaysApply: true
 ---
 
 # Доменная модель
 
-Источник правды: [docs/guides/domain-model-ru.md](../../docs/guides/domain-model-ru.md) · [ADR 0003](../../docs/adr/0003-domain-model.md).
+**Канон Завхоз:** [docs/guides/domain-model-zavhoz-ru.md](../../docs/guides/domain-model-zavhoz-ru.md) · [ADR 0005](../../docs/adr/0005-zavhoz-domain-model.md).  
+**Архив объявлений:** [domain-model-ru.md](../../docs/guides/domain-model-ru.md) · [ADR 0003](../../docs/adr/0003-domain-model.md).
 
-## MVP-сущности
+## MVP-сущности (Завхоз)
 
-User, Category, Region, Locality, Listing, ListingImage, Conversation, Message, Favorite, Report (+ таблицы Better Auth).
+User, Organization, OrgMembership, Site, WorkCategory, MasterProfile, WorkOrder, WorkOrderImage; Region/Locality (reuse) + Better Auth.
 
 ## Обязательные правила
 
 - Цена: `priceMinor` (int, копейки) + currency `BYN` — не float
-- Гео: Region → Locality; страна только BY в конфиге
-- Статусы Listing — только через use-case FSM
-- Переписка in-app; UNIQUE conversation `(listingId, buyerId)`
-- Телефон автора не в публичных DTO
-- Не плодить Buyer/Seller tables; не тащить Payment/Review в первую миграцию
-- Картинки — `ListingImage`, не единственный JSON-массив URL
+- Гео: Region → Locality; страна только BY
+- Статусы WorkOrder — только через use-case FSM (`canTransitionWorkOrder`)
+- Фото — `WorkOrderImage` с kind BEFORE|AFTER, не JSON-массив URL
+- Роли через OrgMembership / MasterProfile; не плодить Buyer/Seller
+- Payment / Subscription / ЭДО — не в первой миграции Завхоз
+- Listing* не расширяем; новый контур рядом до явной чистки
 
-При сомнении — сначала обновить domain-model + ADR, потом код.
+При сомнении — сначала обновить domain-model-zavhoz + ADR, потом код.

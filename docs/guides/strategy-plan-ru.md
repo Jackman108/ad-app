@@ -33,12 +33,12 @@ C2C-доска (S0–S7) **заморожена**. Код остаётся в р
 
 ## Фазы (Завхоз)
 
-### Фаза Z0 — Пивот и домен (сейчас)
+### Фаза Z0 — Пивот и домен ✅
 
 - [x] ADR 0004 + business-model guide  
-- [ ] ADR 0005: сущности WorkOrder, Org, Site, Master, прайс, FSM  
-- [ ] Обновить domain rules / sprint-map под Завхоз  
-- [ ] Решение по VPS `:3010` (оставить объявления / заменить лендингом Завхоз)
+- [x] ADR 0005: WorkOrder, Org, Site, Master, FSM  
+- [x] Domain rules + [sprint-map-zavhoz-ru.md](sprint-map-zavhoz-ru.md)  
+- [x] VPS `:3010` — **можно менять** (витрина Завхоз в Z6; до Z6 можно деплоить параллельно)
 
 ### Фаза Z1 — Вертикаль заявки
 
