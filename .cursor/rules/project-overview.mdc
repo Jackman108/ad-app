@@ -3,11 +3,13 @@ description: Обзор Ad App — продукт, структура, прин�
 alwaysApply: true
 ---
 
-# Ad App — правила разработки
+# Ad App / Завхоз — правила разработки
 
 ## Назначение
 
-Продукт **Объявки BY** (MVP: РБ, план host `abyawki.by`). Лента, карточка, создание/edit, поиск, избранное, контакт «Написать»; телефон автора — только авторизованным. Auth: email (+ later phone OTP, Google, Telegram).
+**Текущий продукт:** B2B **«Завхоз на аутсорсе»** (РБ, BYN) — заявки на мелкий ремонт/эксплуатацию коммерческих точек, диспетчеризация мастеров ([ADR 0004](../../docs/adr/0004-product-pivot-zavhoz.md), [business-model](../../docs/guides/business-model-zavhoz-ru.md)).
+
+**Архив в этом же репо:** C2C **Объявки BY** (S0–S7) — не развиваем без отдельного ADR; код = reference (auth, upload, geo, FSM).
 
 ## Корень репозитория
 
@@ -24,8 +26,9 @@ alwaysApply: true
 ## Документация
 
 - Индекс: `docs/README.md`
-- Спринты: `docs/guides/sprint-map-ru.md`
-- Стек: ADR 0001; окружение: `docs/guides/environment-ru.md`
+- Стратегия Завхоз: `docs/guides/strategy-plan-ru.md` (Z0–Z4)
+- Спринты объявлений (архив): `docs/guides/sprint-map-ru.md`
+- Стек: ADR 0001; пивот: ADR 0004; окружение: `docs/guides/environment-ru.md`
 - Git: [guides/git-workflow-ru.md](../../docs/guides/git-workflow-ru.md) · правило `git-workflow.mdc`
 - Именование docs: kebab-case; RU-гайды с суффиксом `-ru.md`
 - Один источник правды; после задач обновлять `docs/changelog.md` и затронутые guides/ADR/rules
