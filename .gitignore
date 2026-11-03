@@ -14,4 +14,4 @@ Thumbs.db
 *.local
 next-env.d.ts
 tsconfig.tsbuildinfo
-uploads/
+/uploads/
