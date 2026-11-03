@@ -39,16 +39,18 @@
 
 ---
 
-## Z2 — Вертикаль «создать заявку»
+## Z2 — Вертикаль «создать заявку» ✅
 
 | # | Задача | Статус |
 | --- | --- | --- |
-| Z2.1 | use-case `createWorkOrder` + upload BEFORE | ⬜ |
-| Z2.2 | UI: `/orders/new`, список `/orders` (org) | ⬜ |
-| Z2.3 | Карточка `/orders/[id]` (org DTO) | ⬜ |
-| Z2.4 | Auth guard: только OrgMembership | ⬜ |
+| Z2.1 | use-case `createAndSubmitWorkOrder` + upload BEFORE | ✅ |
+| Z2.2 | UI: `/orders/new`, список `/orders` (org) | ✅ |
+| Z2.3 | Карточка `/orders/[id]` (org DTO) | ✅ |
+| Z2.4 | Auth guard: OrgMembership (+ demo bootstrap) | ✅ |
 
-**Exit:** менеджер точки создаёт заявку с фото «до».
+**Exit:** менеджер точки создаёт заявку с фото «до» — ✅ (нужен migrate+seed на БД).
+
+**Следующий:** Z3 диспетчер.
 
 ---
 

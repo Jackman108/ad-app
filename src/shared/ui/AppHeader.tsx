@@ -7,21 +7,20 @@ type Props = {
   unreadCount?: number;
 };
 
-/** Общая шапка: навигация ядра сделки (лента → подать → сообщения). */
+/** Общая шапка: Завхоз (заявки) + архивные ссылки объявлений. */
 export function AppHeader({ userName, unreadCount = 0 }: Props) {
   const authed = Boolean(userName);
 
   return (
     <header className={styles.header}>
-      <Link href="/" className={styles.brand}>
-        Объявки BY
+      <Link href="/orders" className={styles.brand}>
+        Завхоз
       </Link>
       <nav className={styles.nav} aria-label="Основное">
         {authed ? (
           <>
-            <Link href="/listings/new">Подать</Link>
-            <Link href="/my/listings">Мои</Link>
-            <Link href="/favorites">Избранное</Link>
+            <Link href="/orders">Заявки</Link>
+            <Link href="/orders/new">Новая</Link>
             <Link href="/inbox" className={styles.inboxLink}>
               Сообщения
               {unreadCount > 0 ? (

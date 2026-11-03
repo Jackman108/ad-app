@@ -6,7 +6,7 @@ const UPLOAD_ROOT = process.env.UPLOAD_DIR
   ? path.resolve(process.env.UPLOAD_DIR)
   : path.join(process.cwd(), 'uploads');
 
-export async function saveListingImage(file: File): Promise<{ storageKey: string }> {
+async function saveImageUnder(subdir: string, file: File): Promise<{ storageKey: string }> {
   const bytes = Buffer.from(await file.arrayBuffer());
   if (bytes.length > 5 * 1024 * 1024) {
     throw new Error('Файл больше 5 МБ');
@@ -17,10 +17,19 @@ export async function saveListingImage(file: File): Promise<{ storageKey: string
   }
   const ext = type === 'image/png' ? 'png' : type === 'image/webp' ? 'webp' : 'jpg';
   const name = `${Date.now()}-${randomBytes(6).toString('hex')}.${ext}`;
-  const dir = path.join(UPLOAD_ROOT, 'listings');
+  const dir = path.join(UPLOAD_ROOT, subdir);
   await mkdir(dir, { recursive: true });
   await writeFile(path.join(dir, name), bytes);
-  return { storageKey: `listings/${name}` };
+  return { storageKey: `${subdir}/${name}` };
+}
+
+/** Сохраняет оригинал байтов без перекодирования (чистая фотка). */
+export async function saveListingImage(file: File): Promise<{ storageKey: string }> {
+  return saveImageUnder('listings', file);
+}
+
+export async function saveWorkOrderImage(file: File): Promise<{ storageKey: string }> {
+  return saveImageUnder('work-orders', file);
 }
 
 export function uploadAbsolutePath(storageKey: string): string {
