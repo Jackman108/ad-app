@@ -8,7 +8,7 @@
 ### Changed
 
 - **Бренд UI:** «Завхоз» → **«НаТочку»** (`siteConfig`, шапка, лендинг, e2e); ADR/внутренние docs пока могут говорить Завхоз
-- **hire-prep/**: подготовка к найму (шпаргалка, mock-15, Q&A, story, CV-черновик, сопроводительные, квиз, трекер откликов) — вынести в отдельный репо позже
+- **hire-prep/**: материалы найма/CV/обучения перенесены в приватный репо [Jackman108/job-hunt](https://github.com/Jackman108/job-hunt); в ad-app остался stub-README
 - **job_search_backend** (отдельный репо): README переписан под Express/Postgres API (больше не копия puppeteer-parser)
 - **Hire-ready:** корневой README под продукт (портфолио)
 - **Z7 (часть):** `WorkCategory.basePriceMinor` + сиды; `DEFAULT_PLATFORM_FEE_BPS` 20%; диспетчер префилл прайса и split комиссия/мастер; карточка заявки показывает split
