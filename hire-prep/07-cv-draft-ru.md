@@ -11,7 +11,7 @@ GitHub: [github.com/Jackman108](https://github.com/Jackman108) · сайт: [jac
 
 Full-stack с 2020: TypeScript, React, Next.js, Node.js, NestJS, SQL.  
 Собрал B2B field-service **«НаТочку»**: заявки на объект, диспетчер, мастер, FSM статусов, Prisma, фотоотчёты.  
-Также: job_search (client/backend), auth NestJS, Electron (work_time).
+Также: **Job Search** (монопродукт: client + backend + auth), Electron (work_time).
 
 ---
 
@@ -68,13 +68,11 @@ B2B платформа мелкого ремонта/эксплуатации к
 - Диспетчер: прайс категорий, комиссия платформы, назначение мастера  
 - Auth (Better Auth), Postgres/Prisma, Docker/VPS  
 
-### Job Search · client + backend · TypeScript
+### Job Search · один продукт, 3 сервиса · TypeScript
 
-Поиск вакансий: React-клиент и Express/Postgres API.
-
-### auth_nestjs · TypeScript
-
-Сервис аутентификации на NestJS.
+- [job_search_client](https://github.com/Jackman108/job_search_client) — React UI: вакансии, резюме, подписки, оплаты  
+- [job_search_backend](https://github.com/Jackman108/job_search_backend) — Express + PostgreSQL + WS + JWT helpers  
+- [job_search_auth](https://github.com/Jackman108/job_search_auth) — NestJS auth для того же контура  
 
 ### work_time · TypeScript
 
