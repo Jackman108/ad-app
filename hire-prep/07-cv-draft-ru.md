@@ -9,9 +9,9 @@ GitHub: [github.com/Jackman108](https://github.com/Jackman108) · сайт: [jac
 
 ## Профиль
 
-Full-stack с 2020: TypeScript, React, Next.js, Node.js, NestJS, SQL.  
-Собрал B2B field-service **«НаТочку»**: заявки на объект, диспетчер, мастер, FSM статусов, Prisma, фотоотчёты.  
-Также: **Job Search** (монопродукт: client + backend + auth), Electron (work_time).
+Full-stack с 2020, коммерческий опыт ~6+ лет (TypeScript, React, Next.js, Node.js, NestJS, SQL).  
+Сейчас **ООО «Пауэр-Строй»**: внутренние веб-сервисы React/Next + NestJS/Postgres. Ранее **ООО «Лайкит»** (высоконагруженные модули, кэш/ETag −25%), frontend в **«Вэб Моушн»**.  
+Пет-проекты (вторично): **«НаТочку»**, Job Search (client/backend/auth), Electron work_time.
 
 ---
 
@@ -92,6 +92,6 @@ Builder Manager — Electron + SQLite.
 ## Заметки себе перед отправкой
 
 - [x] Места: Пауэр-Строй (с ноя 2024) + Лайкит (фев 2023 — окт 2024) + ранее  
-- [ ] Сверить даты с HH 1:1  
+- [x] Сверить даты с HH 1:1 (профиль 2026-11-04: Пауэр-Строй ноя 2024—, Лайкит фев 2023—окт 2024)  
 - [ ] PDF в репо `cv`  
 - [ ] Не указывать секреты VPS / Tailscale  

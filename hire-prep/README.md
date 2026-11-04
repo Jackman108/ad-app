@@ -18,6 +18,8 @@
 | 11 | [11-hh-profile-ru.md](11-hh-profile-ru.md) | Как заполнить HH |
 | 12 | [12-algorithms-easy.md](12-algorithms-easy.md) | Easy-задачи без фанатизма |
 | 13 | [13-applications-tracker.md](13-applications-tracker.md) | Таблица откликов + follow-up |
+| 14 | [14-resume-sync.md](14-resume-sync.md) | Синхрон HH / PDF / site / канон |
+| 15 | [resume-snapshot-ru.md](resume-snapshot-ru.md) | Снимок текста резюме после правок |
 | ★ | [quiz/index.html](quiz/index.html) | **Локальный квиз** с баллами и разбивкой по темам |
 
 Открыть квиз: двойной клик `hire-prep/quiz/index.html` (или Live Server). История попыток — в `localStorage`.
