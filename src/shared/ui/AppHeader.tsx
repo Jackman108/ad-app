@@ -13,7 +13,7 @@ export function AppHeader({ userName, unreadCount = 0 }: Props) {
 
   return (
     <header className={styles.header}>
-      <Link href="/orders" className={styles.brand}>
+      <Link href="/" className={styles.brand}>
         Завхоз
       </Link>
       <nav className={styles.nav} aria-label="Основное">
