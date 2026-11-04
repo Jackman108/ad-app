@@ -17,5 +17,8 @@
 | 10 | [10-system-design-light.md](10-system-design-light.md) | НаТочку как system design на 5–8 мин |
 | 11 | [11-hh-profile-ru.md](11-hh-profile-ru.md) | Как заполнить HH |
 | 12 | [12-algorithms-easy.md](12-algorithms-easy.md) | Easy-задачи без фанатизма |
+| ★ | [quiz/index.html](quiz/index.html) | **Локальный квиз** с баллами и разбивкой по темам |
+
+Открыть квиз: двойной клик `hire-prep/quiz/index.html` (или Live Server). История попыток — в `localStorage`.
 
 Продукт в коде: бренд **НаТочку** (`siteConfig.name`). Внутренние ADR пока могут говорить «Завхоз» — это прежнее имя пивота.
