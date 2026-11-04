@@ -28,3 +28,22 @@ const allowed: Record<WorkOrderStatus, WorkOrderStatus[]> = {
 export function canTransitionWorkOrder(from: WorkOrderStatus, to: WorkOrderStatus): boolean {
   return allowed[from].includes(to);
 }
+
+const labelsRu: Record<WorkOrderStatus, string> = {
+  DRAFT: 'Черновик',
+  SUBMITTED: 'Новая',
+  ESTIMATED: 'Оценена',
+  OFFERED: 'Предложена мастеру',
+  ACCEPTED: 'Принята мастером',
+  IN_PROGRESS: 'В работе',
+  AWAITING_CONFIRM: 'Ждёт подтверждения',
+  CLOSED: 'Закрыта',
+  CANCELLED: 'Отменена',
+};
+
+export function workOrderStatusLabel(status: string): string {
+  if ((workOrderStatuses as readonly string[]).includes(status)) {
+    return labelsRu[status as WorkOrderStatus];
+  }
+  return status;
+}

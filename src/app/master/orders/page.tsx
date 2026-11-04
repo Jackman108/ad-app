@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { formatPriceByn } from '@/entities/listing/model/dto';
+import { workOrderStatusLabel } from '@/entities/work-order/model/status';
 import { countUnreadForUser } from '@/features/contact-seller/model/unread';
 import { ensureMasterProfile } from '@/features/master-work-order/model/ensure-master-profile';
 import { auth } from '@/shared/lib/auth';
@@ -19,7 +20,7 @@ export default async function MasterOrdersPage() {
 
   await ensureMasterProfile(session.user.id);
 
-  const [orders, unreadCount] = await Promise.all([
+  const [orders, unreadCount, me] = await Promise.all([
     prisma.workOrder.findMany({
       where: {
         masterId: session.user.id,
@@ -37,11 +38,16 @@ export default async function MasterOrdersPage() {
       },
     }),
     countUnreadForUser(session.user.id),
+    prisma.user.findUnique({ where: { id: session.user.id }, select: { role: true } }),
   ]);
 
   return (
     <main className={styles.main}>
-      <AppHeader userName={session.user.name} unreadCount={unreadCount} />
+      <AppHeader
+        userName={session.user.name}
+        unreadCount={unreadCount}
+        isDispatcher={me?.role === 'ADMIN'}
+      />
       <h1 className={styles.title}>Кабинет мастера</h1>
       <p className={styles.lead}>Назначенные заявки · фото «после» без перекодирования</p>
 
@@ -55,7 +61,7 @@ export default async function MasterOrdersPage() {
                 <Link href={`/orders/${o.id}`} className={styles.cardTitle}>
                   {o.title}
                 </Link>
-                <span className={styles.badge}>{o.status}</span>
+                <span className={styles.badge}>{workOrderStatusLabel(o.status)}</span>
               </div>
               <p className={styles.cardMeta}>
                 {o.organization.name} · {o.site.name} · {o.site.addressLine} · {o.category.name}

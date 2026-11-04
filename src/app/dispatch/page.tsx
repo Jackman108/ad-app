@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { formatPriceByn } from '@/entities/listing/model/dto';
+import { workOrderStatusLabel } from '@/entities/work-order/model/status';
 import { countUnreadForUser } from '@/features/contact-seller/model/unread';
 import { auth } from '@/shared/lib/auth';
 import { prisma } from '@/shared/lib/prisma';
@@ -46,9 +47,9 @@ export default async function DispatchPage() {
 
   return (
     <main className={styles.main}>
-      <AppHeader userName={session.user.name} unreadCount={unreadCount} />
+      <AppHeader userName={session.user.name} unreadCount={unreadCount} isDispatcher />
       <h1 className={styles.title}>Диспетчер</h1>
-      <p className={styles.lead}>Очередь SUBMITTED / ESTIMATED / OFFERED</p>
+      <p className={styles.lead}>Очередь новых / оценённых / предложенных</p>
 
       {queue.length === 0 ? (
         <p className={styles.meta}>Очередь пуста.</p>
@@ -60,7 +61,7 @@ export default async function DispatchPage() {
                 <Link href={`/orders/${o.id}`} className={styles.cardTitle}>
                   {o.title}
                 </Link>
-                <span className={styles.badge}>{o.status}</span>
+                <span className={styles.badge}>{workOrderStatusLabel(o.status)}</span>
               </div>
               <p className={styles.cardMeta}>
                 {o.organization.name} · {o.site.name} · {o.category.name}

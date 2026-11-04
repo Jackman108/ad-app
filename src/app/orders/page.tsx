@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
+import { workOrderStatusLabel } from '@/entities/work-order/model/status';
 import { ensureDemoOrgMembership } from '@/features/create-work-order/model/ensure-demo-membership';
 import { countUnreadForUser } from '@/features/contact-seller/model/unread';
 import { auth } from '@/shared/lib/auth';
@@ -22,7 +23,7 @@ export default async function OrdersPage() {
   });
   const orgIds = memberships.map((m) => m.organizationId);
 
-  const [orders, unreadCount] = await Promise.all([
+  const [orders, unreadCount, me] = await Promise.all([
     orgIds.length
       ? prisma.workOrder.findMany({
           where: { organizationId: { in: orgIds }, deletedAt: null },
@@ -35,11 +36,16 @@ export default async function OrdersPage() {
         })
       : Promise.resolve([]),
     countUnreadForUser(session.user.id),
+    prisma.user.findUnique({ where: { id: session.user.id }, select: { role: true } }),
   ]);
 
   return (
     <main className={styles.main}>
-      <AppHeader userName={session.user.name} unreadCount={unreadCount} />
+      <AppHeader
+        userName={session.user.name}
+        unreadCount={unreadCount}
+        isDispatcher={me?.role === 'ADMIN'}
+      />
       <div className={styles.head}>
         <div>
           <h1 className={styles.title}>Заявки</h1>
@@ -61,7 +67,7 @@ export default async function OrdersPage() {
               <Link href={`/orders/${o.id}`} className={styles.cardLink}>
                 <span className={styles.cardTitle}>{o.title}</span>
                 <span className={styles.cardMeta}>
-                  {o.status} · {o.site.name} · {o.category.name}
+                  {workOrderStatusLabel(o.status)} · {o.site.name} · {o.category.name}
                 </span>
               </Link>
             </li>

@@ -5,10 +5,12 @@ import styles from './app-header.module.css';
 type Props = {
   userName?: string | null;
   unreadCount?: number;
+  /** Показывать ссылку диспетчера (User.role === ADMIN). */
+  isDispatcher?: boolean;
 };
 
-/** Общая шапка: Завхоз (заявки) + архивные ссылки объявлений. */
-export function AppHeader({ userName, unreadCount = 0 }: Props) {
+/** Общая шапка: Завхоз (заявки). */
+export function AppHeader({ userName, unreadCount = 0, isDispatcher = false }: Props) {
   const authed = Boolean(userName);
 
   return (
@@ -21,7 +23,7 @@ export function AppHeader({ userName, unreadCount = 0 }: Props) {
           <>
             <Link href="/orders">Заявки</Link>
             <Link href="/orders/new">Новая</Link>
-            <Link href="/dispatch">Диспетчер</Link>
+            {isDispatcher ? <Link href="/dispatch">Диспетчер</Link> : null}
             <Link href="/master/orders">Мастер</Link>
             <Link href="/inbox" className={styles.inboxLink}>
               Сообщения

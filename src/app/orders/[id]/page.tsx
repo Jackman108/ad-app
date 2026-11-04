@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { headers } from 'next/headers';
 import { notFound, redirect } from 'next/navigation';
 import { toWorkOrderOrgDto } from '@/entities/work-order/model/dto';
+import { workOrderStatusLabel } from '@/entities/work-order/model/status';
 import { countUnreadForUser } from '@/features/contact-seller/model/unread';
 import { auth } from '@/shared/lib/auth';
 import { prisma } from '@/shared/lib/prisma';
@@ -41,17 +42,24 @@ export default async function WorkOrderDetailPage({
   if (!row || !orgIds.has(row.organizationId)) notFound();
 
   const dto = toWorkOrderOrgDto(row);
-  const unreadCount = await countUnreadForUser(session.user.id);
+  const [unreadCount, me] = await Promise.all([
+    countUnreadForUser(session.user.id),
+    prisma.user.findUnique({ where: { id: session.user.id }, select: { role: true } }),
+  ]);
 
   return (
     <main className={styles.main}>
-      <AppHeader userName={session.user.name} unreadCount={unreadCount} />
+      <AppHeader
+        userName={session.user.name}
+        unreadCount={unreadCount}
+        isDispatcher={me?.role === 'ADMIN'}
+      />
       <p className={styles.back}>
         <Link href="/orders">← К заявкам</Link>
       </p>
       <h1 className={styles.title}>{dto.title}</h1>
       <p className={styles.lead}>
-        {dto.status} · {dto.site.name} · {dto.category.name}
+        {workOrderStatusLabel(dto.status)} · {dto.site.name} · {dto.category.name}
       </p>
       <p className={styles.body}>{dto.description}</p>
       <p className={styles.meta}>
@@ -89,6 +97,11 @@ export default async function WorkOrderDetailPage({
           confirmAction={submitConfirm}
           reworkAction={submitRework}
         />
+      ) : null}
+      {dto.status === 'CLOSED' ? (
+        <p className={styles.meta} data-testid="order-closed">
+          {workOrderStatusLabel('CLOSED')}
+        </p>
       ) : null}
     </main>
   );

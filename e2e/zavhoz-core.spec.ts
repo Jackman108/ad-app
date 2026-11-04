@@ -63,18 +63,18 @@ test('ядро: заявка → диспетчер → мастер → под�
   const card = admin.locator('li', { hasText: title });
   await card.getByPlaceholder('Цена BYN').fill('80');
   await card.getByRole('button', { name: 'Оценить' }).click();
-  await expect(card.getByText('ESTIMATED')).toBeVisible({ timeout: 10_000 });
+  await expect(card.getByText('Оценена')).toBeVisible({ timeout: 10_000 });
   await card.getByRole('button', { name: 'Назначить' }).click();
-  await expect(card.getByText('OFFERED')).toBeVisible({ timeout: 10_000 });
+  await expect(card.getByText('Предложена мастеру')).toBeVisible({ timeout: 10_000 });
 
   // --- master: accept → start → after photo ---
   await master.goto('/master/orders');
   await expect(master.getByRole('heading', { name: 'Кабинет мастера' })).toBeVisible();
   const mCard = master.locator('li', { hasText: title });
   await mCard.getByRole('button', { name: 'Принять' }).click();
-  await expect(mCard.getByText('ACCEPTED')).toBeVisible({ timeout: 10_000 });
+  await expect(mCard.getByText('Принята мастером')).toBeVisible({ timeout: 10_000 });
   await mCard.getByRole('button', { name: 'В работу' }).click();
-  await expect(mCard.getByText('IN_PROGRESS')).toBeVisible({ timeout: 10_000 });
+  await expect(mCard.getByText('В работе')).toBeVisible({ timeout: 10_000 });
 
   // минимальный jpeg 1x1
   const png = Buffer.from(
@@ -87,12 +87,12 @@ test('ядро: заявка → диспетчер → мастер → под�
     buffer: png,
   });
   await mCard.getByRole('button', { name: 'Сдать на подтверждение' }).click();
-  await expect(mCard.getByText('AWAITING_CONFIRM')).toBeVisible({ timeout: 15_000 });
+  await expect(mCard.getByText('Ждёт подтверждения')).toBeVisible({ timeout: 15_000 });
 
   // --- org: confirm ---
   await org.goto(orderUrl);
   await org.getByRole('button', { name: 'Подтвердить и закрыть' }).click();
-  await expect(org.getByText('CLOSED')).toBeVisible({ timeout: 15_000 });
+  await expect(org.getByTestId('order-closed')).toBeVisible({ timeout: 15_000 });
 
   await orgCtx.close();
   await adminCtx.close();
