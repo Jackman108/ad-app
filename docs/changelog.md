@@ -8,7 +8,8 @@
 ### Changed
 
 - **Бренд UI:** «Завхоз» → **«НаТочку»** (`siteConfig`, шапка, лендинг, e2e); ADR/внутренние docs пока могут говорить Завхоз
-- **hire-prep/**: подготовка к найму (шпаргалка, mock-15, Q&A, story, CV-черновик, сопроводительные) — вынести в отдельный репо позже
+- **hire-prep/**: подготовка к найму (шпаргалка, mock-15, Q&A, story, CV-черновик, сопроводительные, квиз, трекер откликов) — вынести в отдельный репо позже
+- **job_search_backend** (отдельный репо): README переписан под Express/Postgres API (больше не копия puppeteer-parser)
 - **Hire-ready:** корневой README под продукт (портфолио)
 - **Z7 (часть):** `WorkCategory.basePriceMinor` + сиды; `DEFAULT_PLATFORM_FEE_BPS` 20%; диспетчер префилл прайса и split комиссия/мастер; карточка заявки показывает split
 - **Zavhoz UX:** RU-лейблы статусов WorkOrder (`workOrderStatusLabel`); `AppHeader` ссылка «Диспетчер» для ADMIN; e2e под русские статусы

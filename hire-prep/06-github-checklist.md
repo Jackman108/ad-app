@@ -14,7 +14,7 @@
 - [ ] Pin 6 репо  
 - [ ] Archive учебки 2022  
 - [ ] ad-app public **или** скрины в CV  
-- [ ] Починить README `job_search_backend`  
+- [x] Починить README `job_search_backend` (2026-11-04)  
 - [ ] CV PDF 1–2 стр  
 - [ ] HH.by профиль  
 
