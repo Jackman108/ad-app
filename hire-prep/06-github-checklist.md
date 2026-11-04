@@ -13,7 +13,7 @@
 - [x] Bio: scope `user` + текст обновлён (2026-11-04)  
 - [ ] Pin 6 репо  
 - [x] Archive учебки 2022 (Blog-React, GPT3, Online_Store, …)  
-- [ ] ad-app public **или** скрины в CV  
+- [x] ad-app public (2026-11-04)  
 - [x] Починить README `job_search_backend` (2026-11-04)  
 - [ ] CV PDF 1–2 стр (+ опыт в черновике)  
 - [ ] HH.by профиль  
