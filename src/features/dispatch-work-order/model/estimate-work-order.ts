@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import { canTransitionWorkOrder } from '@/entities/work-order/model/status';
+import { DEFAULT_PLATFORM_FEE_BPS } from '@/shared/config/platform-fee';
 import { prisma } from '@/shared/lib/prisma';
 
 const schema = z.object({
@@ -16,7 +17,7 @@ function parsePriceMinor(raw: string): number {
   return Math.round(value * 100);
 }
 
-/** Диспетчер: SUBMITTED → ESTIMATED с ценой BYN. */
+/** Диспетчер: SUBMITTED → ESTIMATED с ценой BYN (+ platformFeeBps). */
 export async function estimateWorkOrder(actorUserId: string, input: unknown) {
   const data = schema.parse(input);
   const actor = await prisma.user.findUnique({ where: { id: actorUserId } });
@@ -38,7 +39,7 @@ export async function estimateWorkOrder(actorUserId: string, input: unknown) {
       status: 'ESTIMATED',
       priceMinor: parsePriceMinor(data.priceByn),
       currency: 'BYN',
-      platformFeeBps: order.platformFeeBps ?? 2000,
+      platformFeeBps: order.platformFeeBps ?? DEFAULT_PLATFORM_FEE_BPS,
     },
   });
 

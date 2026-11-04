@@ -7,6 +7,7 @@
 
 ### Changed
 
+- **Z7 (часть):** `WorkCategory.basePriceMinor` + сиды; `DEFAULT_PLATFORM_FEE_BPS` 20%; диспетчер префилл прайса и split комиссия/мастер; карточка заявки показывает split
 - **Zavhoz UX:** RU-лейблы статусов WorkOrder (`workOrderStatusLabel`); `AppHeader` ссылка «Диспетчер» для ADMIN; e2e под русские статусы
 - **Пивот продукта:** вместо C2C «Объявки BY» — B2B «Завхоз на аутсорсе» ([ADR 0004](adr/0004-product-pivot-zavhoz.md), [business-model-zavhoz-ru.md](guides/business-model-zavhoz-ru.md)); код объявлений S0–S7 заморожен
 - **Z0 Завхоз:** [ADR 0005](adr/0005-zavhoz-domain-model.md), [domain-model-zavhoz-ru.md](guides/domain-model-zavhoz-ru.md), [sprint-map-zavhoz-ru.md](guides/sprint-map-zavhoz-ru.md); VPS можно менять в Z6

@@ -70,21 +70,25 @@ async function main() {
   }
 
   async function seedWorkCategory(node: WorkCatNode, parentId: string | null, sortOrder: number) {
+    const isLeaf = !node.children?.length;
+    const basePriceMinor = isLeaf ? (node.basePriceMinor ?? null) : null;
     const row = await prisma.workCategory.upsert({
       where: { slug: node.slug },
       update: {
         name: node.name,
         parentId,
         sortOrder,
-        allowsOrder: !node.children?.length,
+        allowsOrder: isLeaf,
         isActive: true,
+        basePriceMinor,
       },
       create: {
         name: node.name,
         slug: node.slug,
         parentId,
         sortOrder,
-        allowsOrder: !node.children?.length,
+        allowsOrder: isLeaf,
+        basePriceMinor,
       },
     });
     if (node.children) {

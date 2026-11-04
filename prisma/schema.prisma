@@ -341,16 +341,18 @@ model Site {
 }
 
 model WorkCategory {
-  id            String         @id @default(cuid())
-  parentId      String?
-  parent        WorkCategory?  @relation("WorkCategoryTree", fields: [parentId], references: [id])
-  children      WorkCategory[] @relation("WorkCategoryTree")
-  name          String
-  slug          String         @unique
-  sortOrder     Int            @default(0)
-  isActive      Boolean        @default(true)
-  allowsOrder   Boolean        @default(true)
-  workOrders    WorkOrder[]
+  id             String         @id @default(cuid())
+  parentId       String?
+  parent         WorkCategory?  @relation("WorkCategoryTree", fields: [parentId], references: [id])
+  children       WorkCategory[] @relation("WorkCategoryTree")
+  name           String
+  slug           String         @unique
+  sortOrder      Int            @default(0)
+  isActive       Boolean        @default(true)
+  allowsOrder    Boolean        @default(true)
+  /** Базовый прайс BYN (копейки); null у узлов-родителей. */
+  basePriceMinor Int?
+  workOrders     WorkOrder[]
 }
 
 model MasterProfile {

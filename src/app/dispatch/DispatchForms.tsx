@@ -9,42 +9,55 @@ type Master = { userId: string; name: string };
 export function EstimateForm({
   workOrderId,
   action,
+  suggestedPriceByn,
+  feePercent,
 }: {
   workOrderId: string;
   action: (fd: FormData) => Promise<{ ok: true } | { ok: false; error: string }>;
+  suggestedPriceByn?: string;
+  feePercent?: number;
 }) {
   const router = useRouter();
   const [pending, start] = useTransition();
   const [error, setError] = useState<string | null>(null);
 
   return (
-    <form
-      className={styles.inlineForm}
-      onSubmit={(e) => {
-        e.preventDefault();
-        const fd = new FormData(e.currentTarget);
-        start(async () => {
-          setError(null);
-          const res = await action(fd);
-          if (!res.ok) setError(res.error);
-          else router.refresh();
-        });
-      }}
-    >
-      <input type="hidden" name="workOrderId" value={workOrderId} />
-      <input
-        className={styles.input}
-        name="priceByn"
-        placeholder="Цена BYN"
-        inputMode="decimal"
-        required
-        aria-label="Цена BYN"
-      />
-      <button className={styles.btn} type="submit" disabled={pending}>
-        Оценить
-      </button>
-      {error ? <span className={styles.error}>{error}</span> : null}
-    </form>
+    <div className={styles.estimateBlock}>
+      {suggestedPriceByn ? (
+        <p className={styles.hint}>
+          Прайс категории: {suggestedPriceByn} BYN
+          {feePercent != null ? ` · комиссия ${feePercent}%` : ''}
+        </p>
+      ) : null}
+      <form
+        className={styles.inlineForm}
+        onSubmit={(e) => {
+          e.preventDefault();
+          const fd = new FormData(e.currentTarget);
+          start(async () => {
+            setError(null);
+            const res = await action(fd);
+            if (!res.ok) setError(res.error);
+            else router.refresh();
+          });
+        }}
+      >
+        <input type="hidden" name="workOrderId" value={workOrderId} />
+        <input
+          className={styles.input}
+          name="priceByn"
+          placeholder="Цена BYN"
+          inputMode="decimal"
+          required
+          defaultValue={suggestedPriceByn}
+          aria-label="Цена BYN"
+        />
+        <button className={styles.btn} type="submit" disabled={pending}>
+          Оценить
+        </button>
+        {error ? <span className={styles.error}>{error}</span> : null}
+      </form>
+    </div>
   );
 }
 

@@ -1,9 +1,15 @@
 import Link from 'next/link';
 import { headers } from 'next/headers';
 import { notFound, redirect } from 'next/navigation';
+import { formatPriceByn } from '@/entities/listing/model/dto';
 import { toWorkOrderOrgDto } from '@/entities/work-order/model/dto';
 import { workOrderStatusLabel } from '@/entities/work-order/model/status';
 import { countUnreadForUser } from '@/features/contact-seller/model/unread';
+import {
+  DEFAULT_PLATFORM_FEE_BPS,
+  feeBpsToPercent,
+  splitWorkOrderFee,
+} from '@/shared/config/platform-fee';
 import { auth } from '@/shared/lib/auth';
 import { prisma } from '@/shared/lib/prisma';
 import { AppHeader } from '@/shared/ui/AppHeader';
@@ -33,7 +39,7 @@ export default async function WorkOrderDetailPage({
     include: {
       organization: { select: { id: true, name: true } },
       site: { include: { locality: { select: { id: true, name: true } } } },
-      category: { select: { id: true, name: true, slug: true } },
+      category: { select: { id: true, name: true, slug: true, basePriceMinor: true } },
       createdBy: { select: { id: true, name: true } },
       master: { select: { id: true, name: true } },
       images: true,
@@ -42,6 +48,9 @@ export default async function WorkOrderDetailPage({
   if (!row || !orgIds.has(row.organizationId)) notFound();
 
   const dto = toWorkOrderOrgDto(row);
+  const feeBps = dto.platformFeeBps ?? DEFAULT_PLATFORM_FEE_BPS;
+  const feeSplit =
+    dto.priceMinor != null ? splitWorkOrderFee(dto.priceMinor, feeBps) : null;
   const [unreadCount, me] = await Promise.all([
     countUnreadForUser(session.user.id),
     prisma.user.findUnique({ where: { id: session.user.id }, select: { role: true } }),
@@ -60,12 +69,19 @@ export default async function WorkOrderDetailPage({
       <h1 className={styles.title}>{dto.title}</h1>
       <p className={styles.lead}>
         {workOrderStatusLabel(dto.status)} · {dto.site.name} · {dto.category.name}
+        {dto.priceMinor != null ? ` · ${formatPriceByn(dto.priceMinor)}` : ''}
       </p>
       <p className={styles.body}>{dto.description}</p>
       <p className={styles.meta}>
         {dto.site.localityName}, {dto.site.addressLine}
         {dto.masterName ? ` · мастер: ${dto.masterName}` : ''}
       </p>
+      {feeSplit ? (
+        <p className={styles.meta}>
+          Комиссия {feeBpsToPercent(feeBps)}% ({formatPriceByn(feeSplit.platformFeeMinor)}) ·
+          мастеру {formatPriceByn(feeSplit.masterPayoutMinor)}
+        </p>
+      ) : null}
 
       {dto.beforeKeys.length > 0 ? (
         <section className={styles.photos}>

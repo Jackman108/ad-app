@@ -31,7 +31,7 @@ app/                 routes, тонкие server actions
 | `Organization` | юрлицо / ИП клиента (кофейня-сеть и т.п.) |
 | `OrgMembership` | User↔Org + role: OWNER \| MANAGER \| VIEWER |
 | `Site` | объект/точка (адрес, `localityId`, `organizationId`) |
-| `WorkCategory` | дерево услуг (сантехника, электрика, …) |
+| `WorkCategory` | дерево услуг; у листьев `basePriceMinor?` (MVP-прайс до PriceListItem) |
 | `MasterProfile` | User-мастер: навыки, `localityId`, active |
 | `WorkOrder` | заявка на работу |
 | `WorkOrderImage` | фото BEFORE/AFTER + sortOrder + storageKey |

@@ -4,6 +4,11 @@ import { redirect } from 'next/navigation';
 import { formatPriceByn } from '@/entities/listing/model/dto';
 import { workOrderStatusLabel } from '@/entities/work-order/model/status';
 import { countUnreadForUser } from '@/features/contact-seller/model/unread';
+import {
+  DEFAULT_PLATFORM_FEE_BPS,
+  feeBpsToPercent,
+  splitWorkOrderFee,
+} from '@/shared/config/platform-fee';
 import { auth } from '@/shared/lib/auth';
 import { prisma } from '@/shared/lib/prisma';
 import { AppHeader } from '@/shared/ui/AppHeader';
@@ -30,7 +35,7 @@ export default async function DispatchPage() {
       take: 50,
       include: {
         site: { select: { name: true, addressLine: true } },
-        category: { select: { name: true } },
+        category: { select: { name: true, basePriceMinor: true } },
         organization: { select: { name: true } },
         master: { select: { name: true } },
       },
@@ -68,14 +73,36 @@ export default async function DispatchPage() {
                 {o.priceMinor != null ? ` · ${formatPriceByn(o.priceMinor)}` : ''}
                 {o.master ? ` · ${o.master.name}` : ''}
               </p>
+              {o.priceMinor != null
+                ? (() => {
+                    const feeBps = o.platformFeeBps ?? DEFAULT_PLATFORM_FEE_BPS;
+                    const split = splitWorkOrderFee(o.priceMinor, feeBps);
+                    return (
+                      <p className={styles.hint}>
+                        Клиент {formatPriceByn(o.priceMinor)} · комиссия{' '}
+                        {feeBpsToPercent(feeBps)}% ({formatPriceByn(split.platformFeeMinor)}) ·
+                        мастер {formatPriceByn(split.masterPayoutMinor)}
+                      </p>
+                    );
+                  })()
+                : null}
               {o.status === 'SUBMITTED' ? (
-                <EstimateForm workOrderId={o.id} action={submitEstimate} />
+                <EstimateForm
+                  workOrderId={o.id}
+                  action={submitEstimate}
+                  suggestedPriceByn={
+                    o.category.basePriceMinor != null
+                      ? (o.category.basePriceMinor / 100).toFixed(2)
+                      : undefined
+                  }
+                  feePercent={feeBpsToPercent(DEFAULT_PLATFORM_FEE_BPS)}
+                />
               ) : null}
               {o.status === 'ESTIMATED' ? (
                 <OfferForm workOrderId={o.id} masters={masterOpts} action={submitOffer} />
               ) : null}
               {o.status === 'OFFERED' ? (
-                <p className={styles.hint}>Ждём accept мастера (Z4).</p>
+                <p className={styles.hint}>Ждём принятия мастером.</p>
               ) : null}
             </li>
           ))}
