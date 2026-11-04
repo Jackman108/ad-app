@@ -49,7 +49,7 @@ export default async function OrdersPage() {
       <div className={styles.head}>
         <div>
           <h1 className={styles.title}>Заявки</h1>
-          <p className={styles.lead}>Завхоз · ваши объекты</p>
+          <p className={styles.lead}>НаТочку · ваши объекты</p>
         </div>
         <Link className={styles.cta} href="/orders/new">
           Новая заявка

@@ -18,7 +18,7 @@ test('ядро: объявление → написать → диалог', asy
   await seller.getByLabel('Email').fill(`seller.${stamp}@example.com`);
   await seller.getByLabel('Пароль').fill('password123');
   await seller.getByRole('button', { name: 'Создать аккаунт' }).click();
-  await expect(seller.getByRole('heading', { name: 'Завхоз' })).toBeVisible({ timeout: 20_000 });
+  await expect(seller.getByRole('heading', { name: 'НаТочку' })).toBeVisible({ timeout: 20_000 });
 
   await seller.goto('/listings/new');
   await seller.getByLabel('Заголовок').fill(title);
@@ -40,7 +40,7 @@ test('ядро: объявление → написать → диалог', asy
   await buyer.getByLabel('Email').fill(`buyer.${stamp}@example.com`);
   await buyer.getByLabel('Пароль').fill('password123');
   await buyer.getByRole('button', { name: 'Создать аккаунт' }).click();
-  await expect(buyer.getByRole('heading', { name: 'Завхоз' })).toBeVisible({ timeout: 20_000 });
+  await expect(buyer.getByRole('heading', { name: 'НаТочку' })).toBeVisible({ timeout: 20_000 });
 
   await buyer.goto(listingUrl);
   await expect(buyer.getByRole('heading', { name: title })).toBeVisible();

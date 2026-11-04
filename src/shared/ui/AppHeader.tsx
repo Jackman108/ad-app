@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { SignOutButton } from '@/features/auth-ui/ui/SignOutButton';
+import { siteConfig } from '@/shared/config/site';
 import styles from './app-header.module.css';
 
 type Props = {
@@ -9,14 +10,14 @@ type Props = {
   isDispatcher?: boolean;
 };
 
-/** Общая шапка: Завхоз (заявки). */
+/** Общая шапка продукта (заявки). */
 export function AppHeader({ userName, unreadCount = 0, isDispatcher = false }: Props) {
   const authed = Boolean(userName);
 
   return (
     <header className={styles.header}>
       <Link href="/" className={styles.brand}>
-        Завхоз
+        {siteConfig.name}
       </Link>
       <nav className={styles.nav} aria-label="Основное">
         {authed ? (

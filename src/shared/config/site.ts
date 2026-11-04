@@ -1,7 +1,9 @@
 export const siteConfig = {
-  /** UI title (RU). Product pivot ADR 0004. */
-  name: 'Завхоз',
-  tagline: 'Мелкий ремонт и эксплуатация для бизнеса в Беларуси',
+  /** UI title (RU). Product brand (pivot ADR 0004; formerly «Завхоз»). */
+  name: 'НаТочку',
+  tagline: 'Ремонт и эксплуатация для бизнеса — мастер на объект за часы, не за недели',
+  /** Внутреннее/архивное имя пивота */
+  legacyProductName: 'Завхоз',
   /** Архив C2C-бренда */
   legacyName: 'Объявки BY',
   plannedHost: 'abyawki.by',

@@ -50,7 +50,7 @@ export default async function NewWorkOrderPage() {
     <main className={styles.main}>
       <AppHeader userName={session.user.name} unreadCount={unreadCount} />
       <h1 className={styles.title}>Новая заявка</h1>
-      <p className={styles.lead}>Завхоз · фото «до» без перекодирования</p>
+      <p className={styles.lead}>НаТочку · фото «до» без перекодирования</p>
       <CreateWorkOrderForm
         organizations={organizations}
         sites={sites}

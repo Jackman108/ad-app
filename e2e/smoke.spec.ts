@@ -1,8 +1,8 @@
 import { expect, test } from '@playwright/test';
 
-test('лендинг Завхоз загружается', async ({ page }) => {
+test('лендинг НаТочку загружается', async ({ page }) => {
   await page.goto('/');
-  await expect(page.getByRole('heading', { name: 'Завхоз' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'НаТочку' })).toBeVisible();
   await expect(page.getByText(/Мелкий ремонт и эксплуатация/i)).toBeVisible();
 });
 
@@ -21,7 +21,7 @@ test('регистрация → создание заявки (форма)', as
   await page.getByLabel('Email').fill(email);
   await page.getByLabel('Пароль').fill('password123');
   await page.getByRole('button', { name: 'Создать аккаунт' }).click();
-  await expect(page.getByRole('heading', { name: 'Завхоз' })).toBeVisible({ timeout: 20_000 });
+  await expect(page.getByRole('heading', { name: 'НаТочку' })).toBeVisible({ timeout: 20_000 });
 
   await page.goto('/orders/new');
   await expect(page.getByRole('heading', { name: 'Новая заявка' })).toBeVisible({ timeout: 15_000 });

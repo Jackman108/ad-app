@@ -25,7 +25,7 @@ test('ядро: заявка → диспетчер → мастер → под�
   await org.getByLabel('Email').fill(orgEmail);
   await org.getByLabel('Пароль').fill('password123');
   await org.getByRole('button', { name: 'Создать аккаунт' }).click();
-  await expect(org.getByRole('heading', { name: 'Завхоз' })).toBeVisible({ timeout: 20_000 });
+  await expect(org.getByRole('heading', { name: 'НаТочку' })).toBeVisible({ timeout: 20_000 });
 
   await org.goto('/orders/new');
   await expect(org.getByRole('heading', { name: 'Новая заявка' })).toBeVisible({ timeout: 15_000 });
@@ -46,7 +46,7 @@ test('ядро: заявка → диспетчер → мастер → под�
   await admin.getByLabel('Email').fill(adminEmail);
   await admin.getByLabel('Пароль').fill('password123');
   await admin.getByRole('button', { name: 'Создать аккаунт' }).click();
-  await expect(admin.getByRole('heading', { name: 'Завхоз' })).toBeVisible({ timeout: 20_000 });
+  await expect(admin.getByRole('heading', { name: 'НаТочку' })).toBeVisible({ timeout: 20_000 });
   await promoteAdminByEmail(adminEmail);
 
   await master.goto('/register');
@@ -54,7 +54,7 @@ test('ядро: заявка → диспетчер → мастер → под�
   await master.getByLabel('Email').fill(masterEmail);
   await master.getByLabel('Пароль').fill('password123');
   await master.getByRole('button', { name: 'Создать аккаунт' }).click();
-  await expect(master.getByRole('heading', { name: 'Завхоз' })).toBeVisible({ timeout: 20_000 });
+  await expect(master.getByRole('heading', { name: 'НаТочку' })).toBeVisible({ timeout: 20_000 });
   await ensureMasterByEmail(masterEmail);
 
   await admin.goto('/dispatch');

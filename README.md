@@ -1,9 +1,9 @@
-# Завхоз (ad-app)
+# НаТочку (ad-app)
 
 B2B **field-service** для точек в Беларуси: заявка → диспетчер → мастер → фотоотчёт → подтверждение.
 
 Репозиторий: https://github.com/Jackman108/ad-app  
-Ранее здесь был C2C «Объявки BY» — код объявлений **заморожен** (reference), продукт пивотнут на Завхоз ([ADR 0004](docs/adr/0004-product-pivot-zavhoz.md)).
+Ранее: C2C «Объявки BY» (код заморожен) → пивот «Завхоз» → бренд UI **НаТочку** ([ADR 0004](docs/adr/0004-product-pivot-zavhoz.md)).
 
 ## Стек
 
@@ -37,13 +37,11 @@ yarn dev
 | [docs/README.md](docs/README.md) | Индекс |
 | [docs/guides/sprint-map-zavhoz-ru.md](docs/guides/sprint-map-zavhoz-ru.md) | Спринты Z0–Z7 |
 | [docs/guides/domain-model-zavhoz-ru.md](docs/guides/domain-model-zavhoz-ru.md) | Домен |
-| [docs/adr/0005-zavhoz-domain-model.md](docs/adr/0005-zavhoz-domain-model.md) | ADR домена |
-| [docs/guides/architecture-ru.md](docs/guides/architecture-ru.md) | FSD / слои |
+| [hire-prep/](hire-prep/) | Подготовка к найму (вынести в отдельный репо) |
 
 ## Тесты
 
 ```bash
 yarn tsc --noEmit
-# e2e при поднятом Postgres:
 yarn test:e2e -- e2e/zavhoz-core.spec.ts
 ```
