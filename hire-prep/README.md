@@ -14,5 +14,8 @@
 | 07 | [07-cv-draft-ru.md](07-cv-draft-ru.md) | Черновик CV (допиши места работы) |
 | 08 | [08-cover-templates-ru.md](08-cover-templates-ru.md) | Сопроводительные 4–6 строк |
 | 09 | [09-mock-15-keys.md](09-mock-15-keys.md) | Короткие ключи к mock (после попытки) |
+| 10 | [10-system-design-light.md](10-system-design-light.md) | НаТочку как system design на 5–8 мин |
+| 11 | [11-hh-profile-ru.md](11-hh-profile-ru.md) | Как заполнить HH |
+| 12 | [12-algorithms-easy.md](12-algorithms-easy.md) | Easy-задачи без фанатизма |
 
 Продукт в коде: бренд **НаТочку** (`siteConfig.name`). Внутренние ADR пока могут говорить «Завхоз» — это прежнее имя пивота.

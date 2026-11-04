@@ -8,9 +8,10 @@
 | Вт | React + Next | 10 Q |
 | Ср | Prisma/SQL/Auth + [04](04-story-natocheku.md) | 8 Q + 1 story |
 | Чт | Mock [02](02-mock-15.md) на таймер | 45–60 мин |
-| Пт | Слабые места + отклики HH | 5 Q + 10 откликов |
-| Сб | GitHub/CV [06](06-github-checklist.md) | 2 ч |
-| Вс | Лёгкий повтор шпаргалки [01](01-cheat-sheet.md) | 30 мин |
+| Пт | Слабые места + отклики HH ([11](11-hh-profile-ru.md)) | 5 Q + 10 откликов |
+| Сб | GitHub/CV [06](06-github-checklist.md) + [07](07-cv-draft-ru.md) | 2 ч |
+| Вс | Шпаргалка [01](01-cheat-sheet.md) + 2 Easy ([12](12-algorithms-easy.md)) | 45 мин |
+| + | Раз в неделю: [10](10-system-design-light.md) вслух | 10 мин |
 
 ## Порядок «первый раз»
 
