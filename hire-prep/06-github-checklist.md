@@ -10,13 +10,14 @@
 
 ## Сделать тебе
 
-- [ ] Bio: `gh auth refresh -h github.com -s user` + новый текст  
+- [x] Bio: scope `user` + текст обновлён (2026-11-04)  
 - [ ] Pin 6 репо  
-- [ ] Archive учебки 2022  
+- [x] Archive учебки 2022 (Blog-React, GPT3, Online_Store, …)  
 - [ ] ad-app public **или** скрины в CV  
 - [x] Починить README `job_search_backend` (2026-11-04)  
-- [ ] CV PDF 1–2 стр  
+- [ ] CV PDF 1–2 стр (+ опыт в черновике)  
 - [ ] HH.by профиль  
+- [ ] Website: обновить github.io **или** убрать из профиля (`blog` сейчас `jackman108.github.io`)  
 
 ## Narrative для HR
 
