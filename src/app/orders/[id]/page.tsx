@@ -6,6 +6,8 @@ import { countUnreadForUser } from '@/features/contact-seller/model/unread';
 import { auth } from '@/shared/lib/auth';
 import { prisma } from '@/shared/lib/prisma';
 import { AppHeader } from '@/shared/ui/AppHeader';
+import { ConfirmActions } from './ConfirmActions';
+import { submitConfirm, submitRework } from './actions';
 import styles from '../orders.module.css';
 
 export const dynamic = 'force-dynamic';
@@ -79,6 +81,14 @@ export default async function WorkOrderDetailPage({
             ))}
           </div>
         </section>
+      ) : null}
+
+      {dto.status === 'AWAITING_CONFIRM' ? (
+        <ConfirmActions
+          workOrderId={dto.id}
+          confirmAction={submitConfirm}
+          reworkAction={submitRework}
+        />
       ) : null}
     </main>
   );

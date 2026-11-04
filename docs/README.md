@@ -20,7 +20,7 @@
 | Домен объявлений | Архив — [ADR 0003](adr/0003-domain-model.md) |
 | Пивот | **Принято** — [ADR 0004](adr/0004-product-pivot-zavhoz.md) |
 | Домен Завхоз | **Принято** — [ADR 0005](adr/0005-zavhoz-domain-model.md) |
-| Спринты Завхоз | [guides/sprint-map-zavhoz-ru.md](guides/sprint-map-zavhoz-ru.md) · Z0–Z4 в коде; следующий **Z5** confirm |
+| Спринты Завхоз | [guides/sprint-map-zavhoz-ru.md](guides/sprint-map-zavhoz-ru.md) · Z0–Z5 в коде; следующий **Z6** витрина/VPS |
 
 ## Гайды
 

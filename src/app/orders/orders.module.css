@@ -106,3 +106,42 @@
   border-radius: 0.35rem;
   background: #0f141c;
 }
+
+.confirmBox {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius, 0.5rem);
+  background: var(--color-surface);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.confirmLead {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.confirmRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.secondaryBtn {
+  border: 1px solid var(--color-border);
+  border-radius: 0.4rem;
+  padding: 0.55rem 0.9rem;
+  background: transparent;
+  color: var(--color-text);
+  font: inherit;
+  font-weight: 550;
+  cursor: pointer;
+}
+
+.error {
+  margin: 0;
+  color: var(--color-danger, #b91c1c);
+  font-size: 0.9rem;
+}
