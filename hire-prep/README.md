@@ -9,4 +9,4 @@
 
 Структура там: `resume/` · `portfolio/` · `skills-tests/` · `learning/` · `applications/`.
 
-Этот каталог в ad-app **не развиваем** — правки только в `job-hunt`. Файлы ниже можно считать archive snapshot до удаления в отдельном PR.
+Этот каталог в ad-app **не развиваем** — правки только в `job-hunt`.
