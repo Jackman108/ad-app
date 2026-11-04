@@ -25,13 +25,22 @@ Full-stack с 2020: TypeScript, React, Next.js, Node.js, NestJS, SQL.
 ## Опыт
 
 ### ООО «Пауэр-Строй» · Москва · удалённо  
-**Full-stack developer** · Ноябрь 2023 — настоящее время  
+**Full-stack developer** · Ноябрь 2024 — настоящее время  
 
-- Веду full-stack контур внутренних веб-сервисов: React/Next.js, Node.js/NestJS, PostgreSQL (TypeORM/Prisma).  
+- Full-stack контур внутренних веб-сервисов: React/Next.js, Node.js/NestJS, PostgreSQL (TypeORM/Prisma).  
 - REST API модулей учёта объектов/заявок: валидация, роли, аудит, пагинация и фильтры.  
-- HTTP-кэш и ETag на read-эндпоинтах — меньше лишних запросов к БД на типовых экранах.  
+- HTTP-кэш и ETag на read-эндпоинтах — меньше лишних запросов к БД.  
 - CI/CD (GitHub Actions + Docker): сборка, проверки, выкат стендов.  
-- UI на React + Redux Toolkit: формы, таблицы, статусы, состояния загрузки/ошибок.
+- UI на React + Redux Toolkit: формы, таблицы, статусы, загрузка/ошибки.
+
+### ООО «Лайкит»  
+**Full-stack developer** · Февраль 2023 — Октябрь 2024  
+
+- Высоконагруженные модули веб-приложения: Node.js, NestJS, PostgreSQL, TypeORM.  
+- Кэширование client–server (HTTP caching, ETag) — снижение нагрузки на сервер ~25%.  
+- Асинхронные процессы и кэш данных на backend.  
+- Интеграция frontend на React + Redux Toolkit с REST API.  
+- CI/CD на GitHub Actions и Docker — быстрее выпуск обновлений.
 
 ### ООО «Вэб Моушн»  
 **Frontend developer** · Декабрь 2020 — Январь 2023  
@@ -84,7 +93,7 @@ Builder Manager — Electron + SQLite.
 
 ## Заметки себе перед отправкой
 
-- [x] Места работы (Пауэр-Строй / Вэб Моушн / ИП)  
-- [ ] Сверить формулировки с HH 1:1  
-- [ ] PDF в репо `cv` + README  
+- [x] Места: Пауэр-Строй (с ноя 2024) + Лайкит (фев 2023 — окт 2024) + ранее  
+- [ ] Сверить даты с HH 1:1  
+- [ ] PDF в репо `cv`  
 - [ ] Не указывать секреты VPS / Tailscale  
