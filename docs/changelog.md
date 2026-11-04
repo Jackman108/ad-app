@@ -15,6 +15,7 @@
 - **Z4 Завхоз:** `/master/orders` — accept/start/complete+AFTER; architecture-ru под Завхоз
 - **Z5 Завхоз:** org confirm → CLOSED / rework → IN_PROGRESS на карточке заявки; e2e — позже
 - **Z6 Завхоз:** лендинг `/` + siteConfig; VPS `:3010` выкатан (migrate WorkOrder + seed); e2e smoke под Завхоз; meta description из tagline
+- **Z5.3:** Playwright `e2e/zavhoz-core.spec.ts` (org→dispatch→master→confirm) + helpers promoteAdmin/ensureMaster
 - S5.4: VPS `/opt/ad-app` на `:3010` — Postgres healthy, migrate+seed, health OK; uploads вне `:ro` (`/data/uploads`); Prisma `binaryTargets` debian; домен abyawki.by отложен
 - Quality gates: Husky + commitlint + lint-staged; `npm run check`; Playwright smoke (лента / guest→login / create→карточка); `environment-ru` обновлён
 - Аудит 04.11: готовность ~66% soft-launch / ~88% ядро; sprint-map S6–S9 (каталог+гео, фильтры+, горячая лента, UX); конкуренты Kufar/OLX/Avito
