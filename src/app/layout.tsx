@@ -4,7 +4,7 @@ import './globals.css';
 
 export const metadata: Metadata = {
   title: siteConfig.name,
-  description: 'Объявления от частных лиц — Беларусь',
+  description: siteConfig.tagline,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

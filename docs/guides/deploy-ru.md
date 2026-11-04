@@ -1,44 +1,36 @@
-# Деплой Объявки BY (VPS)
+# Деплой Завхоз (VPS)
 
-**Обновлено**: 03.11.2026  
-Продукт: **Объявки BY**. Временно — mesh-VPS рядом с feb-code (`/opt/ad-app`, лимиты RAM/CPU), см. `Documents/server/ad-app/`.  
-Канон стека: [ADR 0001](../adr/0001-core-stack.md).
+**Обновлено:** 04.11.2026  
+Продукт: **Завхоз** ([ADR 0004](../adr/0004-product-pivot-zavhoz.md)). Временно — mesh-VPS рядом с feb-code (`/opt/ad-app`, порт **3010**), см. `Documents/server/ad-app/`.  
+Скрипт: `Documents/server/scripts/deploy-adapp.ps1` (после `yarn build` standalone).
 
 ## Домен
 
-Планируемый FQDN: **`abyawki.by`** (+ `www`) — латиница от бел. **Аб'яўкі**.  
-**Покупка домена отложена** — работаем без публичного `.by`: временный host/IP/port на mesh-VPS рядом с feb-code.
+Планируемый FQDN был **`abyawki.by`** (архив бренда Объявки). Покупка отложена — работаем по IP:`3010`.
 
 ## Локальный prod-smoke
 
 ```powershell
 cd "C:\Users\user\Documents\ad app project"
 # .env.prod не коммитить
-@"
-POSTGRES_PASSWORD=$( -join ((48..57)+(65..90)+(97..122) | Get-Random -Count 24 | ForEach-Object {[char]$_}) )
-BETTER_AUTH_SECRET=$( -join ((48..57)+(65..90)+(97..122) | Get-Random -Count 32 | ForEach-Object {[char]$_}) )
-BETTER_AUTH_URL=http://127.0.0.1:3000
-NEXT_PUBLIC_APP_URL=http://127.0.0.1:3000
-ADAPP_PORT=3000
-"@ | Set-Content -Encoding utf8 .env.prod
-
 docker compose -f docker-compose.prod.yml --env-file .env.prod up -d --build
 curl http://127.0.0.1:3000/api/health
 ```
 
-Остановка: `docker compose -f docker-compose.prod.yml --env-file .env.prod down`.
+## Образ / VPS
 
-## Образ
+- `Dockerfile` — Next **standalone**, `prisma migrate deploy` в `docker/entrypoint.sh` (подтянет миграцию Завхоз `20261104000000_zavhoz_work_orders`)
+- Том uploads → `/data/uploads` (compose) / `/app/uploads`
+- Health: `GET /api/health`
+- После первого migrate — `prisma db seed` (work categories + демо Org/Site) на контейнере/хосте с `DATABASE_URL`
 
-- `Dockerfile` — Next **standalone**, `prisma migrate deploy` в `docker/entrypoint.sh`
-- Том `adapp_uploads` → `/app/uploads`
-- Health: `GET /api/health` (проверка Postgres)
+## Выкладка
 
-## VPS (общий хост lendings)
+```powershell
+cd "C:\Users\user\Documents\ad app project"
+yarn build
+& "$env:USERPROFILE\Documents\server\scripts\deploy-adapp.ps1"
+curl http://193.181.222.49:3010/api/health
+```
 
-1. Собрать и прогнать smoke локально.
-2. Завести DNS / nginx upstream на порт (или внутренний `expose`) — по аналогии с febcode в `lendings-vps-infra`.
-3. Секреты только на сервере (`.env` / Docker secrets), не в git.
-4. Вынос на отдельный хост — новый ADR.
-
-Пока нет отдельного домена — достаточно `docker compose.prod` на машине/VPS и проверка `/api/health`.
+Секреты только в `/opt/ad-app/.env` на VPS.
