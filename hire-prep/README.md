@@ -11,5 +11,8 @@
 | 04 | [04-story-natocheku.md](04-story-natocheku.md) | Рассказ о продукте **НаТочку** (2–3 мин) |
 | 05 | [05-resources.md](05-resources.md) | Бесплатные ресурсы |
 | 06 | [06-github-checklist.md](06-github-checklist.md) | Чеклист GitHub/CV (из аудита) |
+| 07 | [07-cv-draft-ru.md](07-cv-draft-ru.md) | Черновик CV (допиши места работы) |
+| 08 | [08-cover-templates-ru.md](08-cover-templates-ru.md) | Сопроводительные 4–6 строк |
+| 09 | [09-mock-15-keys.md](09-mock-15-keys.md) | Короткие ключи к mock (после попытки) |
 
 Продукт в коде: бренд **НаТочку** (`siteConfig.name`). Внутренние ADR пока могут говорить «Завхоз» — это прежнее имя пивота.
